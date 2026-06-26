@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track en 2 Horas · Andres PM</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #0a0a0f;
+    color: #e2e8f0;
+    font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    padding-bottom: 60px;
+  }
+  #header {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a0a2e 100%);
+    border-bottom: 1px solid #1e1e3a;
+    padding: 28px 24px 20px;
+  }
+  #header-inner { max-width: 640px; margin: 0 auto; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.2em; color: #6366f1; margin-bottom: 6px; font-weight: 600; }
+  h1 { font-size: 26px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+  .subtitle { margin-top: 6px; color: #64748b; font-size: 13px; }
+  .progress-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .progress-label { font-size: 12px; color: #94a3b8; }
+  .progress-pct { font-size: 12px; color: #6366f1; font-weight: 700; }
+  .progress-track { height: 4px; background: #1e1e3a; border-radius: 4px; overflow: hidden; margin-top: 20px; }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6366f1, #ec4899);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  #main { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+
+  /* Structure */
+  .section-title { font-size: 11px; letter-spacing: 0.15em; color: #475569; margin-bottom: 12px; font-weight: 600; margin-top: 24px; }
+  .struct-bar { display: flex; gap: 3px; height: 8px; border-radius: 4px; overflow: hidden; }
+  .struct-labels { display: flex; gap: 3px; margin-top: 6px; }
+  .struct-label { font-size: 9px; color: #475569; font-weight: 700; letter-spacing: 0.05em; }
+  .struct-buttons { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0; }
+  .struct-btn {
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    background: transparent;
+    color: #94a3b8;
+  }
+  .struct-detail {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #0f0f1a;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    display: none;
+  }
+  .struct-detail.active { display: block; }
+  .struct-detail-bars { font-weight: 700; }
+
+  /* Phases */
+  .phase {
+    margin-bottom: 20px;
+    border: 1px solid #1e1e3a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .phase-header {
+    background: #0f0f1a;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #1e1e3a;
+    transition: background 0.3s;
+  }
+  .phase-emoji { font-size: 20px; }
+  .phase-name {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #e2e8f0;
+    flex: 1;
+    transition: color 0.3s;
+  }
+  .phase-done-badge { font-size: 11px; display: none; margin-left: 8px; }
+  .phase-time {
+    font-size: 11px;
+    color: #475569;
+    background: #1e1e2e;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .steps { padding: 4px 0; }
+  .step-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #0f0f1a;
+    background: transparent;
+    transition: background 0.15s;
+  }
+  .step-label.done { background: #0d0d1a; }
+  .step-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid #2d2d4a;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.15s;
+  }
+  .step-check .tick { color: #fff; font-size: 12px; font-weight: 800; display: none; }
+  .step-check.checked .tick { display: block; }
+  .step-label input[type=checkbox] { display: none; }
+  .step-text {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.55;
+    white-space: pre-line;
+    transition: color 0.15s;
+  }
+  .step-text.done { color: #475569; text-decoration: line-through; }
+  .phase-tip {
+    margin: 0 12px 12px;
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+  .tip-label { font-weight: 700; }
+
+  /* Table */
+  .ref-table { margin-top: 8px; padding: 16px; background: #0f0f1a; border: 1px solid #1e1e3a; border-radius: 12px; }
+  .ref-row { display: grid; grid-template-columns: 100px 1fr 1fr 1fr 1fr 1fr; gap: 4px; margin-bottom: 6px; font-size: 11px; }
+  .ref-param { color: #6366f1; font-weight: 700; padding-top: 4px; }
+  .ref-cell {
+    background: #0a0a14;
+    border: 1px solid #1e1e3a;
+    border-radius: 4px;
+    padding: 3px 6px;
+    color: #94a3b8;
+    text-align: center;
+    font-family: monospace;
+  }
+  .ref-cell.warn { color: #f59e0b; }
+  .ref-cell.empty { color: #2d2d4a; }
+  .ref-headers { display: grid; grid-template-columns: 100px 1fr 1fr 1fr 1fr 1fr; gap: 4px; margin-top: 6px; }
+  .ref-header { font-size: 9px; color: #334155; text-align: center; letter-spacing: 0.05em; font-weight: 700; }
+
+  /* Mantra */
+  .mantra {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a0a2e, #0f172a);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .mantra-text { font-size: 14px; color: #e2e8f0; font-style: italic; line-height: 1.6; font-weight: 500; }
+  .mantra-accent { color: #6366f1; font-weight: 800; font-style: normal; }
+  .mantra-author { font-size: 11px; color: #334155; margin-top: 8px; letter-spacing: 0.1em; }
+
+  /* Reset */
+  #reset-wrap { text-align: center; margin-top: 20px; display: none; }
+  #reset-btn {
+    background: transparent;
+    border: 1px solid #2d2d4a;
+    color: #475569;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-inner">
+    <div class="eyebrow">ANDRES PM · MÉTODO EXPRESS</div>
+    <h1>Track en 2 Horas</h1>
+    <p class="subtitle">Tech House · 126 BPM · 192 Bars · 6 min</p>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-row" style="margin-top:6px;">
+      <span class="progress-label" id="progress-label">0 de 17 pasos</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- Structure -->
+  <div class="section-title" style="margin-top:24px;">ESTRUCTURA · 192 BARS</div>
+  <div class="struct-bar" id="struct-bar"></div>
+  <div class="struct-labels" id="struct-labels"></div>
+  <div class="struct-buttons" id="struct-buttons"></div>
+  <div class="struct-detail" id="struct-detail"></div>
+
+  <!-- Phases -->
+  <div id="phases" style="margin-top:24px;"></div>
+
+  <!-- Reference table -->
+  <div class="ref-table">
+    <div class="section-title" style="margin-top:0;">REFERENCIA RÁPIDA · VALORES CLAVE</div>
+    <div id="ref-rows"></div>
+    <div class="ref-headers">
+      <span></span>
+      <span class="ref-header">INTRO</span>
+      <span class="ref-header">BUILD</span>
+      <span class="ref-header">DROP 1</span>
+      <span class="ref-header">BRKDN</span>
+      <span class="ref-header">DROP 2</span>
+    </div>
+  </div>
+
+  <!-- Mantra -->
+  <div class="mantra">
+    <div class="mantra-text">
+      "El productor joven añade.<br>El productor avanzado <span class="mantra-accent">quita</span>."
+    </div>
+    <div class="mantra-author">— MARCO CAROLA / ANDRES PM</div>
+  </div>
+
+  <div id="reset-wrap">
+    <button id="reset-btn" onclick="resetAll()">Reiniciar checklist</button>
+  </div>
+
+</div>
+
+<script>
+const STRUCTURE = [
+  { bars:"1–32",    label:"INTRO",     desc:"Solo Kick + Drone. Groove entra en Bar 17.",                             color:"#334155", flex:1 },
+  { bars:"33–48",   label:"BUILD",     desc:"Vocal aparece. Riser explota. CUT en Bar 47 Beat 4.",                    color:"#7c3aed", flex:1 },
+  { bars:"49–80",   label:"DROP 1",    desc:"Todo full. Vocal sorpresa en Bar 65.",                                   color:"#b91c1c", flex:2 },
+  { bars:"81–120",  label:"BREAKDOWN", desc:"Solo Kick 30% + Drone + Vocal flotante. Máximo 3 elementos.",            color:"#1e40af", flex:2 },
+  { bars:"121–168", label:"DROP 2",    desc:"Más grande. Stab loop hipnótico. Clímax en Bar 145.",                    color:"#991b1b", flex:2 },
+  { bars:"169–192", label:"OUTRO",     desc:"Strip back para el DJ. Sin FX.",                                         color:"#1e3a5f", flex:1 },
+];
+
+const PHASES = [
+  { id:0, time:"5 min",  emoji:"⚙️",  label:"SETUP",          color:"#6366f1",
+    steps:[
+      {id:"s0", text:"Abre Ableton · Tempo 126 BPM · Plantilla V1 Soul First"},
+      {id:"s1", text:"Crea 8 pistas: Kick / Bass / Hats / Top Loop / Perc / Vocal / Drone / FX"},
+      {id:"s2", text:"Coloca 6 Locators (clic derecho en la regla): Bar 1 · 33 · 49 · 81 · 121 · 169"},
+    ], tip:null },
+  { id:1, time:"40 min", emoji:"🥁",  label:"GROOVE",         color:"#f59e0b",
+    steps:[
+      {id:"g0", text:"KICK — Arrastra un kick sólido. Cópialo en los 192 compases."},
+      {id:"g1", text:"DRONE — Un pad oscuro o ruido largo. Solo suena en Intro (1–32) y Breakdown (81–120)."},
+      {id:"g2", text:"TOP LOOP / PERC — Tu groove principal. Entra en Bar 17 y llega al final."},
+      {id:"g3", text:"BASS — Un loop de bajo. Entra en Bar 9. Lo quitas en el Breakdown (81–120)."},
+      {id:"g4", text:"HATS — Entran en Bar 17. CLAP entra en Bar 33."},
+    ], tip:"Regla de oro: nunca pongas dos elementos nuevos al mismo tiempo." },
+  { id:2, time:"30 min", emoji:"🎚️", label:"LIMPIEZA",        color:"#10b981",
+    steps:[
+      {id:"l0", text:"EQ Eight en TODAS las pistas (menos Kick y Bass) → activa filtro High Pass:\n  Hats / Tops / Percs → corta desde 300 Hz\n  Vocal → corta desde 250 Hz\n  FX / Stab → corta desde 200 Hz"},
+      {id:"l1", text:"SIDECHAIN — Compresor en el Bass · Sidechain = Kick · Attack 0ms · Release 80ms · Ratio 4:1"},
+      {id:"l2", text:"VOCAL O STAB — Elige UNO. Vocal en Bar 33 (80% wet reverb) → repite en Bar 65 y Bar 137"},
+    ], tip:"El filtro HP mata el barro al instante. El sidechain crea el pump de Ibiza. Son el 80% del sonido." },
+  { id:3, time:"15 min", emoji:"🎛️", label:"AUTOMATIZACIÓN",  color:"#ec4899",
+    steps:[
+      {id:"a0", text:"KICK (volumen):\n  Bar 1 → 70% · Bar 33 → 85% · Bar 49 → 100%\n  Bar 81 → 30% (¡NUNCA a 0!) · Bar 121 → 100%"},
+      {id:"a1", text:"BASS (Auto Filter Cutoff):\n  Bar 9 → 180 Hz · Bar 33 → 400 Hz · Bar 49 → 800 Hz\n  Bar 81 → Volumen a 0 (no el filtro) · Bar 121 → 900 Hz"},
+      {id:"a2", text:"VOCAL (Reverb Dry/Wet):\n  Bar 33 → 80% wet (suena lejana)\n  Bar 65 → 40% wet (pegajosa, en el drop)\n  Bar 89 → 100% wet (flota en el breakdown)"},
+    ], tip:"Solo 3 automatizaciones. Más de esto en la primera sesión es perderse." },
+  { id:4, time:"10 min", emoji:"🔊",  label:"MASTER",          color:"#8b5cf6",
+    steps:[
+      {id:"m0", text:"Canal Master → Limiter de Ableton · Ceiling: −0.3 dB"},
+      {id:"m1", text:"Sube Gain hasta que el medidor reduzca entre −3 dB y −6 dB. Si baja más de −6 dB → baja volumen de todos los tracks."},
+    ], tip:null },
+  { id:5, time:"5 min",  emoji:"✂️",  label:"EL CORTE",        color:"#ef4444",
+    steps:[
+      {id:"c0", text:"En el Beat 4 del Bar 47 → baja Master a 0 durante exactamente 1 beat. Sube a 100 en Bar 49."},
+      {id:"c1", text:"Repite exactamente lo mismo en el Beat 4 del Bar 119 (antes del Drop 2)."},
+    ], tip:"Ese segundo de silencio hace que tu drop suene el doble de fuerte. Es la firma de Capriati." },
+];
+
+const REF_ROWS = [
+  { param:"Kick Vol",    vals:["70%","85%","100%","30% ⚠️","100%"] },
+  { param:"Bass Filter", vals:["180 Hz","400 Hz","800 Hz","Vol = 0","900 Hz"] },
+  { param:"Vocal Reverb",vals:["—","80% wet","40% wet","100% wet","40% wet"] },
+  { param:"Drone Vol",   vals:["0→80%","60%","0%","100%","0%"] },
+  { param:"Sidechain",   vals:["OFF","OFF","4:1","OFF","8:1"] },
+];
+
+const checked = {};
+let activeSection = null;
+const totalSteps = PHASES.reduce((a,p)=>a+p.steps.length,0);
+
+// Build structure bar
+const structBar = document.getElementById('struct-bar');
+const structLabels = document.getElementById('struct-labels');
+const structButtons = document.getElementById('struct-buttons');
+const structDetail = document.getElementById('struct-detail');
+
+STRUCTURE.forEach(s => {
+  const seg = document.createElement('div');
+  seg.style.flex = s.flex;
+  seg.style.background = s.color;
+  seg.title = s.label;
+  structBar.appendChild(seg);
+
+  const lbl = document.createElement('div');
+  lbl.className = 'struct-label';
+  lbl.style.flex = s.flex;
+  lbl.textContent = s.label;
+  structLabels.appendChild(lbl);
+
+  const btn = document.createElement('button');
+  btn.className = 'struct-btn';
+  btn.style.border = `1px solid ${s.color}`;
+  btn.textContent = s.label;
+  btn.dataset.label = s.label;
+  btn.onclick = () => {
+    if (activeSection === s.label) {
+      activeSection = null;
+      structDetail.classList.remove('active');
+      structDetail.innerHTML = '';
+      document.querySelectorAll('.struct-btn').forEach(b => {
+        const sec = STRUCTURE.find(x=>x.label===b.dataset.label);
+        b.style.background = 'transparent';
+        b.style.color = '#94a3b8';
+      });
+    } else {
+      activeSection = s.label;
+      structDetail.classList.add('active');
+      structDetail.style.borderLeft = `3px solid ${s.color}40`;
+      structDetail.innerHTML = `<span class="struct-detail-bars" style="color:${s.color}">${s.bars} — </span>${s.desc}`;
+      document.querySelectorAll('.struct-btn').forEach(b => {
+        const sec = STRUCTURE.find(x=>x.label===b.dataset.label);
+        if (b.dataset.label === s.label) {
+          b.style.background = s.color;
+          b.style.color = '#fff';
+        } else {
+          b.style.background = 'transparent';
+          b.style.color = '#94a3b8';
+        }
+      });
+    }
+  };
+  structButtons.appendChild(btn);
+});
+
+// Build phases
+const phasesEl = document.getElementById('phases');
+PHASES.forEach(phase => {
+  const wrap = document.createElement('div');
+  wrap.className = 'phase';
+  wrap.id = `phase-${phase.id}`;
+
+  const header = document.createElement('div');
+  header.className = 'phase-header';
+  header.innerHTML = `
+    <span class="phase-emoji">${phase.emoji}</span>
+    <div style="flex:1;display:flex;align-items:center;">
+      <span class="phase-name" id="phase-name-${phase.id}">FASE ${phase.id+1} — ${phase.label}</span>
+      <span class="phase-done-badge" id="phase-badge-${phase.id}" style="color:${phase.color}">✓ LISTO</span>
+    </div>
+    <span class="phase-time">${phase.time}</span>
+  `;
+
+  const steps = document.createElement('div');
+  steps.className = 'steps';
+
+  phase.steps.forEach(step => {
+    const lbl = document.createElement('label');
+    lbl.className = 'step-label';
+    lbl.id = `step-label-${step.id}`;
+
+    const box = document.createElement('div');
+    box.className = 'step-check';
+    box.id = `check-${step.id}`;
+    box.style.border = `2px solid #2d2d4a`;
+    const tick = document.createElement('span');
+    tick.className = 'tick';
+    tick.textContent = '✓';
+    box.appendChild(tick);
+
+    const inp = document.createElement('input');
+    inp.type = 'checkbox';
+    inp.onchange = () => toggleStep(step.id, phase);
+
+    const txt = document.createElement('span');
+    txt.className = 'step-text';
+    txt.id = `step-text-${step.id}`;
+    txt.textContent = step.text;
+
+    lbl.appendChild(box);
+    lbl.appendChild(inp);
+    lbl.appendChild(txt);
+    lbl.onclick = () => toggleStep(step.id, phase);
+    steps.appendChild(lbl);
+  });
+
+  wrap.appendChild(header);
+  wrap.appendChild(steps);
+
+  if (phase.tip) {
+    const tip = document.createElement('div');
+    tip.className = 'phase-tip';
+    tip.style.background = phase.color + '0f';
+    tip.style.borderLeft = `3px solid ${phase.color}`;
+    tip.innerHTML = `<span class="tip-label" style="color:${phase.color}">PRO · </span>${phase.tip}`;
+    wrap.appendChild(tip);
+  }
+
+  phasesEl.appendChild(wrap);
+});
+
+// Build ref table
+const refEl = document.getElementById('ref-rows');
+REF_ROWS.forEach(row => {
+  const div = document.createElement('div');
+  div.className = 'ref-row';
+  const p = document.createElement('span');
+  p.className = 'ref-param';
+  p.textContent = row.param;
+  div.appendChild(p);
+  row.vals.forEach(val => {
+    const c = document.createElement('span');
+    c.className = 'ref-cell';
+    if (val === '—') c.classList.add('empty');
+    if (val.includes('⚠️')) c.classList.add('warn');
+    c.textContent = val;
+    div.appendChild(c);
+  });
+  refEl.appendChild(div);
+});
+
+function toggleStep(id, phase) {
+  checked[id] = !checked[id];
+  const box = document.getElementById(`check-${id}`);
+  const txt = document.getElementById(`step-text-${id}`);
+  const lbl = document.getElementById(`step-label-${id}`);
+  if (checked[id]) {
+    box.style.border = `2px solid ${phase.color}`;
+    box.style.background = phase.color;
+    box.classList.add('checked');
+    txt.classList.add('done');
+    lbl.classList.add('done');
+  } else {
+    box.style.border = `2px solid #2d2d4a`;
+    box.style.background = 'transparent';
+    box.classList.remove('checked');
+    txt.classList.remove('done');
+    lbl.classList.remove('done');
+  }
+  updatePhase(phase);
+  updateProgress();
+}
+
+function updatePhase(phase) {
+  const allDone = phase.steps.every(s => checked[s.id]);
+  const wrap = document.getElementById(`phase-${phase.id}`);
+  const name = document.getElementById(`phase-name-${phase.id}`);
+  const badge = document.getElementById(`phase-badge-${phase.id}`);
+  const header = wrap.querySelector('.phase-header');
+  const headerBorder = wrap.querySelector('.phase-header');
+  if (allDone) {
+    wrap.style.borderColor = phase.color + '60';
+    header.style.background = phase.color + '18';
+    header.style.borderBottom = `1px solid ${phase.color}40`;
+    name.style.color = phase.color;
+    badge.style.display = 'inline';
+  } else {
+    wrap.style.borderColor = '#1e1e3a';
+    header.style.background = '#0f0f1a';
+    header.style.borderBottom = '1px solid #1e1e3a';
+    name.style.color = '#e2e8f0';
+    badge.style.display = 'none';
+  }
+}
+
+function updateProgress() {
+  const done = Object.values(checked).filter(Boolean).length;
+  const pct = Math.round((done / totalSteps) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${done} de ${totalSteps} pasos`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('reset-wrap').style.display = done > 0 ? 'block' : 'none';
+}
+
+function resetAll() {
+  Object.keys(checked).forEach(k => { checked[k] = false; });
+  PHASES.forEach(phase => {
+    phase.steps.forEach(step => {
+      checked[step.id] = false;
+      const box = document.getElementById(`check-${step.id}`);
+      const txt = document.getElementById(`step-text-${step.id}`);
+      const lbl = document.getElementById(`step-label-${step.id}`);
+      box.style.border = '2px solid #2d2d4a';
+      box.style.background = 'transparent';
+      box.classList.remove('checked');
+      txt.classList.remove('done');
+      lbl.classList.remove('done');
+    });
+    updatePhase(phase);
+  });
+  updateProgress();
+}
+</script>
+</body>
+</html>

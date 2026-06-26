@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANDRES PM — 4 TRACK TEMPLATES</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+:root {
+  --bg:     #080808;
+  --bg2:    #0e0e0e;
+  --bg3:    #141414;
+  --bg4:    #1a1a1a;
+  --border: #222222;
+  --text:   #e0e0e0;
+  --dim:    #555555;
+  --dim2:   #333333;
+  --mono:   'Space Mono', monospace;
+  --sans:   'Inter', sans-serif;
+
+  /* intensity colors */
+  --off:    #0e0e0e;
+  --ghost:  #141414;
+  --low:    #1e3a1e;
+  --low2:   #253f25;
+  --med:    #2d5a2d;
+  --med2:   #3a6e35;
+  --full:   #4a8c3f;
+  --full2:  #5aaa4a;
+  --peak:   #c8362e;
+  --peak2:  #e8403a;
+  --cut:    #ff5500;
+  --fade:   #6b5a3a;
+  --fx:     #b8820a;
+  --fx2:    #d4a020;
+  --riser:  #c4942a;
+  --acid:   #7b2db5;
+  --acid2:  #9b3de0;
+  --atmos:  #1a3a5a;
+  --atmos2: #2a5a8a;
+
+  /* track group colors */
+  --grp-kick:  #3a1010;
+  --grp-bass:  #0e1e3a;
+  --grp-hats:  #1a2a1a;
+  --grp-perc:  #1e1a0e;
+  --grp-mel:   #1a0e2a;
+  --grp-atm:   #0e1a1e;
+  --grp-fx:    #1e1e0e;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-x: hidden;
+}
+
+/* ══ NAV ══ */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: #000;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-brand {
+  padding: 0 20px;
+  display: flex; align-items: center;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  gap: 10px;
+}
+.nav-brand-title { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0.1em; }
+.nav-brand-sub   { font-size: 9px; color: var(--dim); letter-spacing: 0.06em; }
+.nav-links { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 18px;
+  border-right: 1px solid var(--border);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.12s;
+  min-height: 44px;
+}
+.nav-link:hover { background: var(--bg3); }
+.nav-link.active { border-bottom: 2px solid var(--peak2); }
+.nav-link .nl-num  { font-size: 8px; color: var(--peak2); font-weight: 700; letter-spacing: 0.1em; }
+.nav-link .nl-name { font-size: 10px; color: var(--text); font-weight: 700; letter-spacing: 0.04em; }
+.nav-link .nl-bpm  { font-size: 8px; color: var(--dim); }
+
+/* ══ COVER ══ */
+.cover {
+  background: #000;
+  padding: 40px 28px 32px;
+  border-bottom: 2px solid var(--peak2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+.cover-left {}
+.cover-eyebrow {
+  font-size: 9px; letter-spacing: 0.2em; color: var(--peak2);
+  margin-bottom: 8px;
+}
+.cover-title {
+  font-size: clamp(20px, 3.5vw, 38px); font-weight: 700;
+  color: #fff; line-height: 1.1; letter-spacing: -0.01em;
+}
+.cover-title em { color: var(--peak2); font-style: normal; }
+.cover-desc {
+  font-size: 10px; color: var(--dim);
+  margin-top: 10px; line-height: 1.7;
+  max-width: 520px;
+}
+.cover-stats { display: flex; gap: 2px; }
+.cstat {
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 10px 14px; text-align: center; min-width: 64px;
+}
+.cstat-n { display: block; font-size: 20px; font-weight: 700; color: var(--peak2); }
+.cstat-l { display: block; font-size: 8px; color: var(--dim); letter-spacing: 0.1em; margin-top: 2px; }
+
+/* ══ LEGEND ══ */
+.legend-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 28px;
+  display: flex; flex-wrap: wrap; gap: 4px 16px;
+  align-items: center;
+}
+.legend-title { font-size: 8px; font-weight: 700; color: var(--dim); letter-spacing: 0.12em; margin-right: 8px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--dim); }
+.leg-box {
+  width: 22px; height: 13px; border-radius: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 700;
+}
+
+/* ══ TRACK SECTION ══ */
+.track-section {
+  border-bottom: 2px solid var(--border);
+  padding: 32px 28px 40px;
+}
+
+.ts-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.ts-num {
+  font-size: 11px; font-weight: 700;
+  color: var(--peak2);
+  background: rgba(232,64,58,0.1);
+  border: 1px solid rgba(232,64,58,0.25);
+  padding: 4px 10px;
+  letter-spacing: 0.1em;
+}
+.ts-name { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+.ts-artists { font-size: 10px; color: var(--dim); letter-spacing: 0.04em; }
+.ts-bpm {
+  font-size: 26px; font-weight: 700; color: var(--peak2);
+  margin-left: auto;
+  display: flex; flex-direction: column; align-items: flex-end;
+}
+.ts-bpm span { font-size: 9px; color: var(--dim); font-weight: 400; }
+
+.ts-meta {
+  display: flex; gap: 2px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.ts-tag {
+  background: var(--bg3); border: 1px solid var(--border);
+  font-size: 8px; color: var(--dim); padding: 4px 10px;
+  letter-spacing: 0.08em;
+}
+.ts-tag.red { border-color: rgba(232,64,58,0.4); color: var(--peak2); }
+.ts-tag.gold { border-color: rgba(196,148,42,0.4); color: var(--riser); }
+.ts-tag.blue { border-color: rgba(42,90,138,0.4); color: var(--atmos2); }
+.ts-tag.purple { border-color: rgba(123,45,181,0.4); color: var(--acid2); }
+
+/* ══ SECTION HEADER ROW ══ */
+.sec-band {
+  display: flex; margin-bottom: 2px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.sec-band::-webkit-scrollbar { display: none; }
+.sb-label {
+  min-width: 130px; width: 130px; flex-shrink: 0;
+  background: #000; border: 1px solid var(--border);
+  font-size: 8px; color: var(--dim); letter-spacing: 0.1em;
+  padding: 5px 8px; display: flex; align-items: center;
+}
+.sb-sections { display: flex; flex: 1; min-width: 0; }
+.sb-sec {
+  flex: 1; text-align: center;
+  padding: 5px 2px;
+  font-size: 8px; font-weight: 700; letter-spacing: 0.1em;
+  border: 1px solid var(--border);
+  border-left: none;
+  white-space: nowrap; overflow: hidden;
+}
+
+/* ══ GRID ══ */
+.grid-wrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+  /* scroll shadow */
+  background:
+    linear-gradient(to right, var(--bg3) 0%, transparent 16px) left center,
+    linear-gradient(to left, rgba(232,64,58,0.15) 0%, transparent 24px) right center;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-size: 48px 100%, 32px 100%;
+}
+.grid-wrap::-webkit-scrollbar { height: 3px; }
+.grid-wrap::-webkit-scrollbar-track { background: var(--bg); }
+.grid-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
+
+.grid-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+/* group header rows */
+.row-group td {
+  background: var(--bg2);
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.12em; color: var(--dim2);
+  padding: 4px 8px;
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+}
+
+/* bar number row */
+.row-bars td {
+  background: #000;
+  font-size: 8px; color: var(--dim);
+  text-align: center; padding: 4px 1px;
+  border: 1px solid var(--dim2);
+  line-height: 1.2; white-space: nowrap;
+}
+.row-bars .bar-label { background: var(--bg3); text-align: left; padding-left: 8px; }
+.bar-time { display: block; font-size: 7px; color: var(--dim2); }
+
+/* track label cell */
+.tl {
+  background: var(--bg4);
+  font-size: 9px; font-weight: 700; color: var(--text);
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  white-space: nowrap; text-align: left;
+  min-width: 130px; width: 130px;
+}
+.tl-sub { font-size: 7px; color: var(--dim); font-weight: 400; display: block; }
+.tl.grp-kick  { border-left: 3px solid #c83030; }
+.tl.grp-bass  { border-left: 3px solid #2a6ab5; }
+.tl.grp-hats  { border-left: 3px solid #2a6a2a; }
+.tl.grp-perc  { border-left: 3px solid #9a7a20; }
+.tl.grp-mel   { border-left: 3px solid #7a30b5; }
+.tl.grp-atm   { border-left: 3px solid #2a7a8a; }
+.tl.grp-fx    { border-left: 3px solid #8a7a20; }
+
+/* intensity cells */
+.c { text-align: center; border: 1px solid #191919; height: 26px; vertical-align: middle; }
+.c-off   { background: var(--off);   color: #1e1e1e; }
+.c-ghost { background: var(--ghost); color: var(--dim2); }
+.c-low   { background: var(--low);   color: #2a5a2a; }
+.c-low2  { background: var(--low2);  color: #3a7a3a; }
+.c-med   { background: var(--med);   color: #5a9a5a; }
+.c-med2  { background: var(--med2);  color: #7ab87a; }
+.c-full  { background: var(--full);  color: #c0e8b0; }
+.c-full2 { background: var(--full2); color: #e0f8d0; }
+.c-peak  { background: var(--peak);  color: #ffcccc; font-weight: 700; }
+.c-peak2 { background: var(--peak2); color: #fff;    font-weight: 700; }
+.c-cut   { background: #000; color: var(--cut); font-weight: 700; border: 1px solid var(--cut) !important; }
+.c-fade  { background: var(--fade);  color: #c0a870; font-style: italic; }
+.c-fx    { background: var(--fx);    color: #000; font-weight: 700; }
+.c-fx2   { background: var(--fx2);   color: #000; font-weight: 700; }
+.c-acid  { background: var(--acid);  color: #d4a0ff; font-weight: 700; }
+.c-acid2 { background: var(--acid2); color: #fff;    font-weight: 700; }
+.c-atm   { background: var(--atmos); color: #60a0c0; }
+.c-atm2  { background: var(--atmos2);color: #b0d8f0; font-weight: 700; }
+
+.c span { font-size: 7px; display: block; line-height: 1; }
+
+/* energy row */
+.row-energy td {
+  background: #000; padding: 2px 1px; height: 28px;
+  vertical-align: bottom; border: 1px solid #111;
+}
+.row-energy .tl-e {
+  background: var(--bg4); font-size: 7px; color: var(--dim);
+  padding: 4px 8px; border: 1px solid var(--border);
+  min-width: 130px;
+}
+.ebar { width: 100%; border-radius: 1px 1px 0 0; }
+
+/* section divider lines */
+.sec-div { border-left: 2px solid rgba(232,64,58,0.4) !important; }
+.sec-div-gold { border-left: 2px solid rgba(196,148,42,0.5) !important; }
+.sec-div-purple { border-left: 2px solid rgba(123,45,181,0.4) !important; }
+
+/* ══ AUTO SECTION ══ */
+.auto-section {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2px;
+}
+.auto-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+.ac-title {
+  font-size: 9px; font-weight: 700; color: var(--peak2);
+  letter-spacing: 0.1em; margin-bottom: 3px;
+}
+.ac-sub {
+  font-size: 8px; color: var(--dim);
+  margin-bottom: 12px; letter-spacing: 0.04em;
+}
+.chart {
+  background: #000; border: 1px solid var(--border);
+  height: 90px; position: relative; overflow: hidden;
+}
+.chart svg { width: 100%; height: 100%; }
+.chart-secs {
+  display: flex; margin-top: 2px;
+}
+.cs {
+  flex: 1; font-size: 7px; color: var(--dim);
+  text-align: center; border-left: 1px solid #1e1e1e;
+  padding: 2px 0; letter-spacing: 0.04em;
+}
+.cs:first-child { border-left: none; }
+.cs.d { color: var(--peak2); }
+.cs.b { color: var(--riser); }
+.cs.k { color: #8b6baa; }
+
+/* breakpoint table */
+.bp-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.bp-table th {
+  background: #000; font-size: 8px; color: var(--dim);
+  padding: 5px 8px; text-align: left;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.08em;
+}
+.bp-table td {
+  font-size: 8px; padding: 5px 8px;
+  border-bottom: 1px solid #111;
+  vertical-align: middle;
+}
+.bp-bar { color: var(--riser); font-weight: 700; }
+.bp-val { font-weight: 700; }
+.bp-val.red   { color: var(--peak2); }
+.bp-val.green { color: var(--full2); }
+.bp-val.gold  { color: var(--riser); }
+.bp-val.purple{ color: var(--acid2); }
+.bp-val.blue  { color: var(--atmos2); }
+.bp-val.dim   { color: var(--dim); }
+.bp-note { font-size: 7px; color: var(--dim); }
+
+/* ══ KEY MOMENTS ══ */
+.moments-row {
+  display: flex; gap: 2px; margin-top: 16px; flex-wrap: wrap;
+}
+.moment {
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 12px 14px; flex: 1; min-width: 110px;
+  position: relative; overflow: hidden;
+}
+.moment.hot { border-color: rgba(232,64,58,0.5); background: rgba(232,64,58,0.05); }
+.moment.gold { border-color: rgba(196,148,42,0.4); background: rgba(196,148,42,0.04); }
+.m-bar { font-size: 18px; font-weight: 700; color: var(--peak2); line-height: 1; }
+.moment.gold .m-bar { color: var(--riser); }
+.m-name { font-size: 8px; font-weight: 700; color: var(--text); margin: 4px 0 2px; letter-spacing: 0.05em; }
+.m-desc { font-size: 7px; color: var(--dim); line-height: 1.5; }
+.m-bg { position: absolute; bottom: -4px; right: 4px; font-size: 44px; font-weight: 700; color: #111; line-height: 1; pointer-events: none; }
+
+/* ══ PRO TIP ══ */
+.tip {
+  background: #0a0a0a; border-left: 3px solid var(--peak2);
+  padding: 12px 16px; margin-top: 16px;
+  display: flex; gap: 10px;
+}
+.tip.gold { border-left-color: var(--riser); }
+.tip.purple { border-left-color: var(--acid2); }
+.tip.blue { border-left-color: var(--atmos2); }
+.tip-badge { font-size: 8px; font-weight: 700; color: var(--peak2); white-space: nowrap; }
+.tip.gold .tip-badge { color: var(--riser); }
+.tip.purple .tip-badge { color: var(--acid2); }
+.tip.blue .tip-badge { color: var(--atmos2); }
+.tip-text { font-size: 9px; color: var(--dim); line-height: 1.6; }
+.tip-text b { color: var(--text); }
+
+/* ══ SECTION DIVIDER ══ */
+.visual-divider {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px 28px 0;
+}
+.vd-line { flex: 1; height: 1px; background: var(--border); }
+.vd-text { font-size: 8px; color: var(--dim); letter-spacing: 0.15em; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 768px) {
+  .cover { grid-template-columns: 1fr; }
+  .cover-stats { flex-wrap: wrap; }
+  .ts-header { gap: 10px; }
+  .ts-bpm { margin-left: 0; }
+  .auto-section { grid-template-columns: 1fr; }
+  .moments-row { gap: 2px; }
+  .moment { min-width: 90px; }
+}
+
+/* scroll hint */
+.scroll-hint {
+  font-size: 8px; color: var(--dim); letter-spacing: 0.1em;
+  text-align: right; padding: 3px 0 6px;
+  display: none;
+}
+@media (max-width: 900px) { .scroll-hint { display: block; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div>
+      <div class="nav-brand-title">ANDRES PM</div>
+      <div class="nav-brand-sub">4 TRACK TEMPLATES</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#v1">
+      <span class="nl-num">V1</span>
+      <span class="nl-name">TRIBAL PEAK HOUR</span>
+      <span class="nl-bpm">128 BPM</span>
+    </a>
+    <a class="nav-link" href="#v2">
+      <span class="nl-num">V2</span>
+      <span class="nl-name">ACID HYPNOSIS</span>
+      <span class="nl-bpm">126 BPM</span>
+    </a>
+    <a class="nav-link" href="#v3">
+      <span class="nl-num">V3</span>
+      <span class="nl-name">DEEP RITUAL</span>
+      <span class="nl-bpm">124 BPM</span>
+    </a>
+    <a class="nav-link" href="#v4">
+      <span class="nl-num">V4</span>
+      <span class="nl-name">LATE NIGHT MACHINE</span>
+      <span class="nl-bpm">130 BPM</span>
+    </a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-left">
+    <div class="cover-eyebrow">TECH HOUSE / HOUSE · PRODUCTION TEMPLATES · EDICIÓN PERCUSIÓN</div>
+    <div class="cover-title">4 TRACK<br><em>STRUCTURES</em></div>
+    <div class="cover-desc">
+      Cuatro arquitecturas completas bar a bar · 192 bars · 6:00 min · 18+ capas por track ·
+      Kick · Sub Kick · Bass · Clap · Snare · Rimshot · Hat Cerrado · Hat Abierto · Hat Loop ·
+      Shaker · Ride · Conga Lo · Conga Hi · Conga Loop · Bongo · Perc Loop 1 · Perc Loop 2 ·
+      Top Loop · Vocal · Stab · Pad · Drone · FX · Riser · Sweep
+    </div>
+  </div>
+  <div class="cover-stats">
+    <div class="cstat"><span class="cstat-n">4</span><span class="cstat-l">TRACKS</span></div>
+    <div class="cstat"><span class="cstat-n">192</span><span class="cstat-l">BARS</span></div>
+    <div class="cstat"><span class="cstat-n">18+</span><span class="cstat-l">LAYERS</span></div>
+    <div class="cstat"><span class="cstat-n">6:00</span><span class="cstat-l">MIN</span></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <span class="legend-title">INTENSIDAD →</span>
+  <div class="leg"><div class="leg-box" style="background:#0e0e0e;color:#222">—</div>OFF</div>
+  <div class="leg"><div class="leg-box" style="background:#1e3a1e;color:#2a5a2a">L</div>LOW</div>
+  <div class="leg"><div class="leg-box" style="background:#253f25;color:#3a7a3a">L+</div>LOW+</div>
+  <div class="leg"><div class="leg-box" style="background:#2d5a2d;color:#5a9a5a">M</div>MED</div>
+  <div class="leg"><div class="leg-box" style="background:#3a6e35;color:#7ab87a">M+</div>MED+</div>
+  <div class="leg"><div class="leg-box" style="background:#4a8c3f;color:#c0e8b0">F</div>FULL</div>
+  <div class="leg"><div class="leg-box" style="background:#5aaa4a;color:#e0f8d0">F+</div>FULL+</div>
+  <div class="leg"><div class="leg-box" style="background:#c8362e;color:#fcc">PK</div>PEAK</div>
+  <div class="leg"><div class="leg-box" style="background:#e8403a;color:#fff">PK+</div>PEAK+</div>
+  <div class="leg"><div class="leg-box" style="background:#000;color:#ff5500;border:1px solid #ff5500">CUT</div>CUT</div>
+  <div class="leg"><div class="leg-box" style="background:#6b5a3a;color:#c0a870;font-style:italic">↑↓</div>FADE</div>
+  <div class="leg"><div class="leg-box" style="background:#b8820a;color:#000">FX</div>FX/RISER</div>
+  <div class="leg"><div class="leg-box" style="background:#7b2db5;color:#d4a0ff">AC</div>ACID</div>
+  <div class="leg"><div class="leg-box" style="background:#1a3a5a;color:#60a0c0">AT</div>ATMOS</div>
+</div>
+
+<!-- ════════════════════ V1 — TRIBAL PEAK HOUR ════════════════════ -->
+<div class="track-section" id="v1">
+  <div class="ts-header">
+    <div class="ts-num">V1</div>
+    <div>
+      <div class="ts-name">TRIBAL PEAK HOUR</div>
+      <div class="ts-artists">Maceo Plex · Art Department · Dennis Cruz · Music On</div>
+    </div>
+    <div class="ts-bpm">128 <span>BPM</span></div>
+  </div>
+  <div class="ts-meta">
+    <div class="ts-tag red">SIN BREAKDOWN TRADICIONAL</div>
+    <div class="ts-tag gold">CONGAS DESDE BAR 1</div>
+    <div class="ts-tag">ENERGÍA EN ESPIRAL</div>
+    <div class="ts-tag">2 DROPS ASIMÉTRICOS</div>
+    <div class="ts-tag blue">SHAKER + RIDE SIEMPRE</div>
+    <div class="ts-tag purple">TOP LOOP PROTAGONISTA</div>
+  </div>
+
+  <!-- FILOSOFÍA V1 -->
+  <div class="tip gold">
+    <div class="tip-badge">FILOSOFÍA</div>
+    <div class="tip-text">
+      <b>Sin breakdown largo.</b> Las congas y el bongo nunca desaparecen del todo — crean el hypno-groove desde bar 1.
+      El "respiro" es solo 8 bars donde baja la batería pero los percs siguen. El Top Loop ES el elemento firma.
+      Cada 16 bars entra una nueva capa de percusión para mantener la espiral ascendente.
+    </div>
+  </div>
+
+  <!-- SECTION BAND V1 -->
+  <div style="margin-top:20px;">
+    <div class="scroll-hint">← SCROLL HORIZONTAL →</div>
+    <div class="grid-wrap">
+      <table class="grid-table">
+        <!-- COL WIDTHS: label=130, 24 blocks of 8 bars each=38px -->
+        <colgroup>
+          <col style="width:130px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- INTRO 1-32 -->
+          <col style="width:38px"><col style="width:38px"><!-- BUILD 33-48 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- DROP1 49-80 -->
+          <col style="width:38px"><col style="width:38px"><!-- STRIP 81-96 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- REBUILD 97-120 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- DROP2 121-168 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- OUTRO 169-192 -->
+        </colgroup>
+
+        <!-- SECTION HEADERS -->
+        <tr>
+          <td class="tl" style="background:#000;color:var(--dim);font-size:8px;border:1px solid var(--border)">SECCIÓN →</td>
+          <td colspan="4" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">INTRO</td>
+          <td colspan="2" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">BUILD</td>
+          <td colspan="4" style="background:#1a0e0e;text-align:center;font-size:8px;font-weight:700;color:var(--peak2);letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 1</td>
+          <td colspan="2" style="background:#12100e;text-align:center;font-size:8px;font-weight:700;color:#6a5a30;letter-spacing:.1em;border:1px solid var(--border);padding:5px">STRIP</td>
+          <td colspan="3" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">REBUILD</td>
+          <td colspan="6" style="background:#1a0a0a;text-align:center;font-size:8px;font-weight:700;color:#ff4040;letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 2 — CLÍMAX</td>
+          <td colspan="3" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">OUTRO</td>
+        </tr>
+
+        <!-- BARS ROW -->
+        <tr class="row-bars">
+          <td class="bar-label">BAR →</td>
+          <td>1–8<span class="bar-time">0:00</span></td>
+          <td>9–16<span class="bar-time">0:15</span></td>
+          <td>17–24<span class="bar-time">0:30</span></td>
+          <td>25–32<span class="bar-time">0:45</span></td>
+          <td>33–40<span class="bar-time">1:00</span></td>
+          <td>41–48<span class="bar-time">1:15</span></td>
+          <td>49–56<span class="bar-time">1:30</span></td>
+          <td>57–64<span class="bar-time">1:45</span></td>
+          <td>65–72<span class="bar-time">2:00</span></td>
+          <td>73–80<span class="bar-time">2:15</span></td>
+          <td>81–88<span class="bar-time">2:30</span></td>
+          <td>89–96<span class="bar-time">2:45</span></td>
+          <td>97–104<span class="bar-time">3:00</span></td>
+          <td>105–112<span class="bar-time">3:15</span></td>
+          <td>113–120<span class="bar-time">3:30</span></td>
+          <td>121–128<span class="bar-time">3:45</span></td>
+          <td>129–136<span class="bar-time">4:00</span></td>
+          <td>137–144<span class="bar-time">4:15</span></td>
+          <td>145–152<span class="bar-time">4:30</span></td>
+          <td>153–160<span class="bar-time">4:45</span></td>
+          <td>161–168<span class="bar-time">5:00</span></td>
+          <td>169–176<span class="bar-time">5:15</span></td>
+          <td>177–184<span class="bar-time">5:30</span></td>
+          <td>185–192<span class="bar-time">5:45</span></td>
+        </tr>
+
+        <!-- ── KICK GROUP ── -->
+        <tr class="row-group"><td colspan="25">▶ KICKS</td></tr>
+        <tr>
+          <td class="tl grp-kick">KICK<span class="tl-sub">4-on-floor · main</span></td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-kick">SUB KICK<span class="tl-sub">layer sub 60–80Hz</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+
+        <!-- ── BASS GROUP ── -->
+        <tr class="row-group"><td colspan="25">▶ BASS</td></tr>
+        <tr>
+          <td class="tl grp-bass">BASS LOOP<span class="tl-sub">filter 180→900Hz</span></td>
+          <td class="c c-low"><span>180Hz</span></td><td class="c c-low2"><span>220Hz</span></td><td class="c c-med"><span>300Hz</span></td><td class="c c-med"><span>350Hz</span></td>
+          <td class="c c-full"><span>500Hz</span></td><td class="c c-full2"><span>700Hz</span></td>
+          <td class="c c-peak"><span>800Hz</span></td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-low"><span>200Hz</span></td>
+          <td class="c c-med"><span>400Hz</span></td><td class="c c-full"><span>600Hz</span></td><td class="c c-peak"><span>800Hz</span></td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+
+        <!-- ── HATS GROUP ── -->
+        <tr class="row-group"><td colspan="25">▶ HI-HATS</td></tr>
+        <tr>
+          <td class="tl grp-hats">HAT CERRADO<span class="tl-sub">16th pulse · groove</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT ABIERTO<span class="tl-sub">off-beat accent</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT LOOP<span class="tl-sub">shuffled groove loop</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">SHAKER<span class="tl-sub">8th / 16th variations</span></td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">RIDE<span class="tl-sub">quarter note accent</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+
+        <!-- ── PERCUSSION GROUP ── -->
+        <tr class="row-group"><td colspan="25">▶ PERCUSIÓN</td></tr>
+        <tr>
+          <td class="tl grp-perc">CLAP<span class="tl-sub">beat 2 & 4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">SNARE<span class="tl-sub">ghost notes layer</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">RIMSHOT<span class="tl-sub">syncopated accent</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LO<span class="tl-sub">desde bar 1</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA HI<span class="tl-sub">desde bar 1</span></td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LOOP<span class="tl-sub">groove loop afro</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">BONGO<span class="tl-sub">triplet fills</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 1<span class="tl-sub">signature groove</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 2<span class="tl-sub">variation layer</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">TOP LOOP<span class="tl-sub">★ ELEMENTO FIRMA</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+
+        <!-- ── MELODIC / ATMOS GROUP ── -->
+        <tr class="row-group"><td colspan="25">▶ MELÓDICO · ATMÓSFERAS · FX</td></tr>
+        <tr>
+          <td class="tl grp-atm">DRONE/ATMOS<span class="tl-sub">inversamente al drop</span></td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm">AT</td><td class="c c-atm">AT</td>
+          <td class="c c-atm">AT</td><td class="c c-low">L</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td>
+          <td class="c c-atm">AT</td><td class="c c-low">L</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-atm">AT</td>
+          <td class="c c-atm">AT</td><td class="c c-atm2">AT+</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">STAB / SYNTH<span class="tl-sub">1 nota · delay 1/4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">VOCAL CHOP<span class="tl-sub">3 apariciones</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-med">M</td><td class="c c-cut">CUT</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-fade">↑F</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-full">F</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑F</td><td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-fade">↓</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-fx">FX / SWEEP<span class="tl-sub">riser + atmos</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">AT</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-fade">AT</td><td class="c c-fx">FX</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+
+        <!-- ENERGY ROW -->
+        <tr class="row-energy">
+          <td class="tl-e">ENERGÍA →</td>
+          <td><div class="ebar" style="height:18%;background:#1e3a1e"></div></td>
+          <td><div class="ebar" style="height:24%;background:#253f25"></div></td>
+          <td><div class="ebar" style="height:32%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:40%;background:#3a6e35"></div></td>
+          <td><div class="ebar" style="height:58%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:74%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:88%;background:#c8362e"></div></td>
+          <td><div class="ebar" style="height:92%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:94%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:38%;background:#4a3a6a"></div></td>
+          <td><div class="ebar" style="height:46%;background:#5a4a7a"></div></td>
+          <td><div class="ebar" style="height:62%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:76%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:86%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:94%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:100%;background:#ff3030"></div></td>
+          <td><div class="ebar" style="height:97%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:92%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:68%;background:#4a8c3f"></div></td>
+          <td><div class="ebar" style="height:44%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:22%;background:#1e3a1e"></div></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- KEY MOMENTS V1 -->
+  <div class="moments-row">
+    <div class="moment"><div class="m-bg">1</div><div class="m-bar">BAR 1</div><div class="m-name">CONGAS + KICK</div><div class="m-desc">Desde bar 1. Sin intro vacío. El groove ya habla.</div></div>
+    <div class="moment gold"><div class="m-bg">33</div><div class="m-bar">BAR 33</div><div class="m-name">VOCAL + BUILD</div><div class="m-desc">Top Loop sube. Riser últimos 4 bars.</div></div>
+    <div class="moment hot"><div class="m-bg">47</div><div class="m-bar">B47 B4</div><div class="m-name">CUT TOTAL</div><div class="m-desc">1 beat. Silencio absoluto. Drop en bar 49.</div></div>
+    <div class="moment hot"><div class="m-bg">49</div><div class="m-bar">BAR 49</div><div class="m-name">DROP 1</div><div class="m-desc">Todo full. Perc en capas. Vocal tardía bar 65.</div></div>
+    <div class="moment"><div class="m-bg">81</div><div class="m-bar">BAR 81</div><div class="m-name">STRIP BACK</div><div class="m-desc">Solo kick + congas. Nada más. 16 bars.</div></div>
+    <div class="moment hot"><div class="m-bg">121</div><div class="m-bar">BAR 121</div><div class="m-name">DROP 2 — FULL</div><div class="m-desc">Top Loop protagonista. Stab en loop. Clímax bar 145.</div></div>
+    <div class="moment hot" style="border-color:#ff3030;background:rgba(255,48,48,0.07)"><div class="m-bg">145</div><div class="m-bar">BAR 145</div><div class="m-name">CLÍMAX</div><div class="m-desc">Todo peak. Todas las capas. UNA vez.</div></div>
+  </div>
+
+  <!-- AUTOMATIONS V1 -->
+  <div class="auto-section">
+    <div class="auto-card">
+      <div class="ac-title">KICK — VOLUMEN</div>
+      <div class="ac-sub">Siempre presente · mín 50% en strip back</div>
+      <div class="chart">
+        <svg viewBox="0 0 360 90" preserveAspectRatio="none">
+          <defs><linearGradient id="gk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8403a" stop-opacity=".35"/><stop offset="100%" stop-color="#e8403a" stop-opacity="0"/></linearGradient></defs>
+          <line x1="0" y1="18" x2="360" y2="18" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="36" x2="360" y2="36" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="54" x2="360" y2="54" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="72" x2="360" y2="72" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="60" y1="0" x2="60" y2="90" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="90" y1="0" x2="90" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="150" y1="0" x2="150" y2="90" stroke="#5a4a7a" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="210" y1="0" x2="210" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="300" y1="0" x2="300" y2="90" stroke="#2a6a2a" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+          <polygon points="0,54 60,36 90,0 150,54 210,0 270,0 300,18 360,36 360,90 0,90" fill="url(#gk1)"/>
+          <polyline points="0,54 60,36 90,0 150,54 210,0 270,0 300,18 360,36" stroke="#e8403a" stroke-width="2" fill="none"/>
+          <circle cx="0" cy="54" r="3" fill="#e8403a"/>
+          <circle cx="60" cy="36" r="3" fill="#e8403a"/>
+          <circle cx="90" cy="0" r="3" fill="#e8403a"/>
+          <circle cx="150" cy="54" r="4" fill="#5a4a7a" stroke="#8b6baa" stroke-width="1.5"/>
+          <circle cx="210" cy="0" r="3" fill="#e8403a"/>
+          <circle cx="300" cy="18" r="3" fill="#e8403a"/>
+          <circle cx="360" cy="36" r="3" fill="#e8403a"/>
+          <text x="2" y="50" fill="#888" font-size="7" font-family="Space Mono">65%</text>
+          <text x="62" y="32" fill="#888" font-size="7" font-family="Space Mono">80%</text>
+          <text x="92" y="10" fill="#e8403a" font-size="7" font-family="Space Mono">100%</text>
+          <text x="122" y="50" fill="#8b6baa" font-size="7" font-family="Space Mono">50%</text>
+          <text x="212" y="10" fill="#e8403a" font-size="7" font-family="Space Mono">100%</text>
+          <text x="302" y="14" fill="#888" font-size="7" font-family="Space Mono">80%</text>
+          <text x="2" y="20" fill="#222" font-size="6" font-family="Space Mono">100%</text>
+          <text x="2" y="38" fill="#222" font-size="6" font-family="Space Mono">80%</text>
+          <text x="2" y="56" fill="#222" font-size="6" font-family="Space Mono">50%</text>
+          <text x="2" y="74" fill="#222" font-size="6" font-family="Space Mono">30%</text>
+        </svg>
+      </div>
+      <div class="chart-secs">
+        <div class="cs">INTRO</div><div class="cs b">BUILD</div><div class="cs d">DROP1</div>
+        <div class="cs" style="color:#5a4a7a">STRIP</div><div class="cs b">RBLD</div><div class="cs d">DROP2</div><div class="cs">OUTRO</div>
+      </div>
+      <table class="bp-table">
+        <tr><th>BAR</th><th>VALOR</th><th>NOTA</th></tr>
+        <tr><td class="bp-bar">1</td><td class="bp-val green">65%</td><td class="bp-note">Groove desde inicio</td></tr>
+        <tr><td class="bp-bar">33</td><td class="bp-val gold">80%</td><td class="bp-note">Build sube</td></tr>
+        <tr><td class="bp-bar">49</td><td class="bp-val red">100%</td><td class="bp-note">Drop 1</td></tr>
+        <tr><td class="bp-bar">81</td><td class="bp-val" style="color:#8b6baa">50%</td><td class="bp-note">Strip back — nunca a 0</td></tr>
+        <tr><td class="bp-bar">121</td><td class="bp-val red">100%</td><td class="bp-note">Drop 2</td></tr>
+        <tr><td class="bp-bar">169</td><td class="bp-val green">80%</td><td class="bp-note">Outro para el DJ</td></tr>
+      </table>
+    </div>
+    <div class="auto-card">
+      <div class="ac-title">CONGA LOOP — VOLUMEN</div>
+      <div class="ac-sub">El groove signature — siempre presente</div>
+      <div class="chart">
+        <svg viewBox="0 0 360 90" preserveAspectRatio="none">
+          <defs><linearGradient id="gcl1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9a7a20" stop-opacity=".4"/><stop offset="100%" stop-color="#9a7a20" stop-opacity="0"/></linearGradient></defs>
+          <line x1="0" y1="18" x2="360" y2="18" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="45" x2="360" y2="45" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="72" x2="360" y2="72" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="60" y1="0" x2="60" y2="90" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="90" y1="0" x2="90" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="150" y1="0" x2="150" y2="90" stroke="#5a4a7a" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="210" y1="0" x2="210" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <polygon points="0,72 60,45 90,0 150,36 210,0 270,0 300,18 360,45 360,90 0,90" fill="url(#gcl1)"/>
+          <polyline points="0,72 60,45 90,0 150,36 210,0 270,0 300,18 360,45" stroke="#c4942a" stroke-width="2" fill="none"/>
+          <circle cx="0" cy="72" r="3" fill="#c4942a"/>
+          <circle cx="90" cy="0" r="3" fill="#c4942a"/>
+          <circle cx="150" cy="36" r="4" fill="#5a4a7a" stroke="#8b6baa" stroke-width="1.5"/>
+          <circle cx="210" cy="0" r="3" fill="#c4942a"/>
+          <text x="2" y="68" fill="#888" font-size="7" font-family="Space Mono">40%</text>
+          <text x="92" y="10" fill="#c4942a" font-size="7" font-family="Space Mono">100%</text>
+          <text x="122" y="32" fill="#8b6baa" font-size="7" font-family="Space Mono">60%</text>
+          <text x="212" y="10" fill="#c4942a" font-size="7" font-family="Space Mono">100%</text>
+        </svg>
+      </div>
+      <div class="chart-secs">
+        <div class="cs">INTRO</div><div class="cs b">BUILD</div><div class="cs d">DROP1</div>
+        <div class="cs" style="color:#5a4a7a">STRIP</div><div class="cs b">RBLD</div><div class="cs d">DROP2</div><div class="cs">OUTRO</div>
+      </div>
+      <table class="bp-table">
+        <tr><th>BAR</th><th>VALOR</th><th>NOTA</th></tr>
+        <tr><td class="bp-bar">1</td><td class="bp-val green">40%</td><td class="bp-note">Groove seed desde bar 1</td></tr>
+        <tr><td class="bp-bar">49</td><td class="bp-val red">100%</td><td class="bp-note">Drop 1 full</td></tr>
+        <tr><td class="bp-bar">81</td><td class="bp-val gold">60%</td><td class="bp-note">Strip — baja pero vive</td></tr>
+        <tr><td class="bp-bar">121</td><td class="bp-val red">100%</td><td class="bp-note">Drop 2 pico absoluto</td></tr>
+        <tr><td class="bp-bar">169</td><td class="bp-val gold">45%</td><td class="bp-note">Outro — groove final</td></tr>
+      </table>
+    </div>
+    <div class="auto-card">
+      <div class="ac-title">TOP LOOP — ELEMENTO FIRMA</div>
+      <div class="ac-sub">El sonido que el crowd recuerda 2 semanas después</div>
+      <div class="chart">
+        <svg viewBox="0 0 360 90" preserveAspectRatio="none">
+          <defs><linearGradient id="gtl1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7b2db5" stop-opacity=".4"/><stop offset="100%" stop-color="#7b2db5" stop-opacity="0"/></linearGradient></defs>
+          <line x1="0" y1="18" x2="360" y2="18" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="45" x2="360" y2="45" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="0" y1="72" x2="360" y2="72" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="60" y1="0" x2="60" y2="90" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="90" y1="0" x2="90" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <line x1="150" y1="0" x2="150" y2="90" stroke="#5a4a7a" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="210" y1="0" x2="210" y2="90" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+          <polygon points="0,90 60,72 90,45 150,72 210,0 270,0 300,18 360,72 360,90 0,90" fill="url(#gtl1)"/>
+          <polyline points="0,90 60,72 90,45 150,72 210,0 270,0 300,18 360,72" stroke="#9b3de0" stroke-width="2" fill="none"/>
+          <circle cx="60" cy="72" r="3" fill="#9b3de0"/>
+          <circle cx="90" cy="45" r="3" fill="#9b3de0"/>
+          <circle cx="150" cy="72" r="4" fill="#5a4a7a" stroke="#8b6baa" stroke-width="1.5"/>
+          <circle cx="210" cy="0" r="3" fill="#9b3de0"/>
+          <text x="62" y="68" fill="#9b3de0" font-size="7" font-family="Space Mono">30%</text>
+          <text x="82" y="41" fill="#9b3de0" font-size="7" font-family="Space Mono">50%</text>
+          <text x="122" y="68" fill="#8b6baa" font-size="7" font-family="Space Mono">30%</text>
+          <text x="212" y="10" fill="#9b3de0" font-size="7" font-family="Space Mono">100%</text>
+        </svg>
+      </div>
+      <div class="chart-secs">
+        <div class="cs">INTRO</div><div class="cs b">BUILD</div><div class="cs d">DROP1</div>
+        <div class="cs" style="color:#5a4a7a">STRIP</div><div class="cs b">RBLD</div><div class="cs d">DROP2</div><div class="cs">OUTRO</div>
+      </div>
+      <table class="bp-table">
+        <tr><th>BAR</th><th>VALOR</th><th>NOTA</th></tr>
+        <tr><td class="bp-bar">33</td><td class="bp-val" style="color:#9b3de0">30%</td><td class="bp-note">Aparece en el build</td></tr>
+        <tr><td class="bp-bar">49</td><td class="bp-val" style="color:#9b3de0">50%</td><td class="bp-note">Sube progresivo</td></tr>
+        <tr><td class="bp-bar">65</td><td class="bp-val red">PK</td><td class="bp-note">Peak drop 1</td></tr>
+        <tr><td class="bp-bar">81</td><td class="bp-val" style="color:#9b3de0">30%</td><td class="bp-note">Strip — baja</td></tr>
+        <tr><td class="bp-bar">121</td><td class="bp-val red">100%</td><td class="bp-note">Drop 2 protagonista</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="tip">
+    <div class="tip-badge">★ V1 KEY</div>
+    <div class="tip-text"><b>El "Strip Back"</b> de bars 81–96 NO es un breakdown — solo baja la batería al 50% mientras las congas siguen. El crowd sigue moviéndose. Ningún elemento llega a 0%. <b>Diferencia con un breakdown clásico: el cuerpo nunca para.</b></div>
+  </div>
+</div>
+
+<!-- ════════════════════ V2 — ACID HYPNOSIS ════════════════════ -->
+<div class="track-section" id="v2">
+  <div class="ts-header">
+    <div class="ts-num">V2</div>
+    <div>
+      <div class="ts-name">ACID HYPNOSIS</div>
+      <div class="ts-artists">DJ Hyperactive · Pig & Dan · Wehbba · Drumcode</div>
+    </div>
+    <div class="ts-bpm">126 <span>BPM</span></div>
+  </div>
+  <div class="ts-meta">
+    <div class="ts-tag purple">LÍNEA ACID TB-303</div>
+    <div class="ts-tag red">2 DROPS ASIMÉTRICOS</div>
+    <div class="ts-tag gold">PERCUSIÓN AFRICANA</div>
+    <div class="ts-tag">SNARE ROLL EN TRANSICIÓN</div>
+    <div class="ts-tag blue">BREAKDOWN EMOCIONAL 32 BARS</div>
+    <div class="ts-tag">HAT PATTERN CAMBIA 3 VECES</div>
+  </div>
+
+  <div class="tip purple">
+    <div class="tip-badge">FILOSOFÍA</div>
+    <div class="tip-text">
+      <b>La línea acid es el elemento firma.</b> El hat cerrado cambia de patrón cada sección para crear variación sin agregar tracks.
+      Drop 1 es solo groove + acid. Drop 2 agrega toda la percusión africana + stab en loop.
+      El snare roll aparece SOLO antes de las transiciones clave — nunca como decoración.
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="scroll-hint">← SCROLL HORIZONTAL →</div>
+    <div class="grid-wrap">
+      <table class="grid-table">
+        <colgroup>
+          <col style="width:130px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px">
+        </colgroup>
+        <tr>
+          <td class="tl" style="background:#000;color:var(--dim);font-size:8px;border:1px solid var(--border)">SECCIÓN →</td>
+          <td colspan="4" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">INTRO LARGO</td>
+          <td colspan="2" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">BUILD 1</td>
+          <td colspan="4" style="background:#1a0e0e;text-align:center;font-size:8px;font-weight:700;color:var(--peak2);letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 1 — ACID MINIMAL</td>
+          <td colspan="4" style="background:#100e1a;text-align:center;font-size:8px;font-weight:700;color:#8b6baa;letter-spacing:.1em;border:1px solid var(--border);padding:5px">BREAKDOWN EMOCIONAL</td>
+          <td colspan="3" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">REBUILD 2</td>
+          <td colspan="6" style="background:#1a0808;text-align:center;font-size:8px;font-weight:700;color:#ff4040;letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 2 — FULL PERCUSSION</td>
+          <td colspan="3" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">OUTRO</td>
+        </tr>
+        <tr class="row-bars">
+          <td class="bar-label">BAR →</td>
+          <td>1–8<span class="bar-time">0:00</span></td><td>9–16<span class="bar-time">0:15</span></td><td>17–24<span class="bar-time">0:30</span></td><td>25–32<span class="bar-time">0:46</span></td>
+          <td>33–40<span class="bar-time">1:01</span></td><td>41–48<span class="bar-time">1:17</span></td>
+          <td>49–56<span class="bar-time">1:32</span></td><td>57–64<span class="bar-time">1:48</span></td><td>65–72<span class="bar-time">2:03</span></td><td>73–80<span class="bar-time">2:19</span></td>
+          <td>81–88<span class="bar-time">2:34</span></td><td>89–96<span class="bar-time">2:50</span></td><td>97–104<span class="bar-time">3:05</span></td><td>105–112<span class="bar-time">3:21</span></td>
+          <td>113–120<span class="bar-time">3:36</span></td><td>121–128<span class="bar-time">3:52</span></td><td>129–136<span class="bar-time">4:07</span></td>
+          <td>137–144<span class="bar-time">4:23</span></td><td>145–152<span class="bar-time">4:38</span></td><td>153–160<span class="bar-time">4:54</span></td><td>161–168<span class="bar-time">5:09</span></td><td>169–176<span class="bar-time">5:25</span></td><td>177–184<span class="bar-time">5:40</span></td>
+          <td>185–192<span class="bar-time">5:56</span></td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ KICKS</td></tr>
+        <tr>
+          <td class="tl grp-kick">KICK<span class="tl-sub">4-on-floor</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td>
+        </tr>
+        <tr>
+          <td class="tl grp-kick">SUB KICK<span class="tl-sub">layer sub</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ BASS / ACID</td></tr>
+        <tr>
+          <td class="tl grp-bass">BASS LOOP<span class="tl-sub">filter sweep</span></td>
+          <td class="c c-low"><span>180Hz</span></td><td class="c c-low"><span>200Hz</span></td><td class="c c-low2"><span>280Hz</span></td><td class="c c-med"><span>360Hz</span></td>
+          <td class="c c-full"><span>600Hz</span></td><td class="c c-full2"><span>750Hz</span></td>
+          <td class="c c-peak"><span>800Hz</span></td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low"><span>200Hz</span></td>
+          <td class="c c-med"><span>500Hz</span></td><td class="c c-full"><span>750Hz</span></td><td class="c c-peak"><span>900Hz</span></td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-bass" style="border-left:3px solid var(--acid2)">ACID LINE<span class="tl-sub">★ TB-303 firma</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-acid">AC</td><td class="c c-acid2">AC+</td>
+          <td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td>
+          <td class="c c-acid">AC</td><td class="c c-acid">AC</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td>
+          <td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td>
+          <td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid2">AC+</td><td class="c c-acid">AC</td>
+          <td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ HI-HATS</td></tr>
+        <tr>
+          <td class="tl grp-hats">HAT CERRADO<span class="tl-sub">★ patrón cambia 3×</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT ABIERTO<span class="tl-sub">off-beat accent</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT LOOP<span class="tl-sub">swing groove</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">SHAKER<span class="tl-sub">polyrhythm layer</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ PERCUSIÓN</td></tr>
+        <tr>
+          <td class="tl grp-perc">CLAP<span class="tl-sub">beat 2 & 4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">SNARE + ROLL<span class="tl-sub">roll antes de CUT</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-fx2">ROLL</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-fx2">ROLL</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-fx2">ROLL</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">RIMSHOT<span class="tl-sub">syncopated</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LO<span class="tl-sub">desde bar 17</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA HI<span class="tl-sub">desde bar 25</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">BONGO<span class="tl-sub">fills africanos</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 1<span class="tl-sub">afro signature</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">TOP LOOP<span class="tl-sub">acid complemento</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+          <td class="c c-low">L</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ MELÓDICO · ATMÓSFERAS · FX</td></tr>
+        <tr>
+          <td class="tl grp-atm">DRONE/ATMOS<span class="tl-sub">breakdown emocional</span></td>
+          <td class="c c-atm">AT</td><td class="c c-atm">AT</td><td class="c c-atm">AT</td><td class="c c-atm">AT</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td>
+          <td class="c c-atm">AT</td><td class="c c-low">L</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-atm">AT</td><td class="c c-atm2">AT+</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">PAD / CHORD<span class="tl-sub">breakdown only</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-fade">↓</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">VOCAL CHOP<span class="tl-sub">acid complement</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-cut">CUT</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-fade">↑</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-fade">↓</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-fx">FX / SWEEP<span class="tl-sub">riser + snare roll</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">AT</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-fx">FX</td>
+          <td class="c c-fade">AT</td><td class="c c-fx">FX</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-energy">
+          <td class="tl-e">ENERGÍA →</td>
+          <td><div class="ebar" style="height:20%;background:#1e3a1e"></div></td>
+          <td><div class="ebar" style="height:28%;background:#253f25"></div></td>
+          <td><div class="ebar" style="height:36%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:46%;background:#3a6e35"></div></td>
+          <td><div class="ebar" style="height:64%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:80%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:90%;background:#c8362e"></div></td>
+          <td><div class="ebar" style="height:93%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:94%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:20%;background:#4a3a6a"></div></td>
+          <td><div class="ebar" style="height:28%;background:#4a3a6a"></div></td>
+          <td><div class="ebar" style="height:35%;background:#5a4a7a"></div></td>
+          <td><div class="ebar" style="height:42%;background:#5a4a7a"></div></td>
+          <td><div class="ebar" style="height:60%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:76%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:88%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:92%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:100%;background:#ff3030"></div></td>
+          <td><div class="ebar" style="height:86%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:65%;background:#4a8c3f"></div></td>
+          <td><div class="ebar" style="height:30%;background:#2d5a2d"></div></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="moments-row">
+    <div class="moment"><div class="m-bg">33</div><div class="m-bar">BAR 33</div><div class="m-name">ACID ENTRA</div><div class="m-desc">Línea TB-303 aparece. Snare roll últimos 4 bars.</div></div>
+    <div class="moment hot"><div class="m-bg">47</div><div class="m-bar">B47 B4</div><div class="m-name">CUT TOTAL</div><div class="m-desc">1 beat. Solo el acid reverb.</div></div>
+    <div class="moment hot"><div class="m-bg">49</div><div class="m-bar">BAR 49</div><div class="m-name">DROP 1 MINIMAL</div><div class="m-desc">Kick + acid + hat. Sin percusión africana todavía.</div></div>
+    <div class="moment gold"><div class="m-bg">81</div><div class="m-bar">BAR 81</div><div class="m-name">BREAKDOWN</div><div class="m-desc">32 bars. Pad + vocal. Acid sigue bajo.</div></div>
+    <div class="moment hot"><div class="m-bg">113</div><div class="m-bar">BAR 113</div><div class="m-name">REBUILD 2</div><div class="m-desc">Percusión africana vuelve + riser masivo.</div></div>
+    <div class="moment hot"><div class="m-bg">137</div><div class="m-bar">BAR 137</div><div class="m-name">DROP 2 FULL</div><div class="m-desc">TODO + acid + bongo + conga. Clímax 153.</div></div>
+  </div>
+  <div class="tip purple">
+    <div class="tip-badge">★ V2 KEY</div>
+    <div class="tip-text"><b>Drop 1 es intencionalmente minimal:</b> solo kick, bass, acid y hat. El crowd se pregunta dónde están las congas. Drop 2 las trae todas a la vez. <b>El contraste entre drops ES la emoción de este track.</b></div>
+  </div>
+</div>
+
+<!-- ════════════════════ V3 — DEEP RITUAL ════════════════════ -->
+<div class="track-section" id="v3">
+  <div class="ts-header">
+    <div class="ts-num">V3</div>
+    <div>
+      <div class="ts-name">DEEP RITUAL</div>
+      <div class="ts-artists">Dubfire · Slam · Radio Slave · Guy J · Leftroom</div>
+    </div>
+    <div class="ts-bpm">124 <span>BPM</span></div>
+  </div>
+  <div class="ts-meta">
+    <div class="ts-tag blue">INTRO CINEMATOGRÁFICO 40 BARS</div>
+    <div class="ts-tag red">3 CLÍMAX GRADUALES</div>
+    <div class="ts-tag gold">PERC LOOP 2 ENTRA EN DROP 2</div>
+    <div class="ts-tag">DRONE PROTAGONISTA</div>
+    <div class="ts-tag purple">VOCAL MINIMAL 2 PALABRAS</div>
+    <div class="ts-tag">RIDE SIEMPRE PRESENTE</div>
+  </div>
+  <div class="tip blue">
+    <div class="tip-badge">FILOSOFÍA</div>
+    <div class="tip-text">
+      <b>Tres clímax graduales en lugar de uno.</b> Cada drop es más grande que el anterior.
+      El intro de 40 bars construye con solo drone + ride + perc mínima — el crowd entra en trance antes del drop.
+      El Perc Loop 2 es el arma secreta: no aparece hasta el Drop 2, pero cuando llega, el floor explota.
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="scroll-hint">← SCROLL HORIZONTAL →</div>
+    <div class="grid-wrap">
+      <table class="grid-table">
+        <colgroup>
+          <col style="width:130px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- INTRO 40 bars -->
+          <col style="width:38px"><!-- BUILD 8 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- DROP1 32 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- BREAKDOWN 24 -->
+          <col style="width:38px"><col style="width:38px"><!-- REBUILD 16 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- DROP2 48 -->
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><!-- OUTRO 24 -->
+        </colgroup>
+        <tr>
+          <td class="tl" style="background:#000;color:var(--dim);font-size:8px;border:1px solid var(--border)">SECCIÓN →</td>
+          <td colspan="5" style="background:#0a0e1a;text-align:center;font-size:8px;font-weight:700;color:var(--atmos2);letter-spacing:.1em;border:1px solid var(--border);padding:5px">INTRO RITUAL 40 BARS</td>
+          <td colspan="1" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">BUILD</td>
+          <td colspan="4" style="background:#1a0e0e;text-align:center;font-size:8px;font-weight:700;color:var(--peak2);letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 1 — GROOVY</td>
+          <td colspan="3" style="background:#100e1a;text-align:center;font-size:8px;font-weight:700;color:#8b6baa;letter-spacing:.1em;border:1px solid var(--border);padding:5px">BREAKDOWN</td>
+          <td colspan="2" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">REBUILD</td>
+          <td colspan="6" style="background:#1a0808;text-align:center;font-size:8px;font-weight:700;color:#ff4040;letter-spacing:.1em;border:1px solid var(--border);padding:5px">DROP 2 — FULL + PERC2</td>
+          <td colspan="3" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">OUTRO</td>
+        </tr>
+        <tr class="row-bars">
+          <td class="bar-label">BAR →</td>
+          <td>1–8<span class="bar-time">0:00</span></td><td>9–16<span class="bar-time">0:15</span></td><td>17–24<span class="bar-time">0:31</span></td><td>25–32<span class="bar-time">0:46</span></td><td>33–40<span class="bar-time">1:02</span></td>
+          <td>41–48<span class="bar-time">1:17</span></td>
+          <td>49–56<span class="bar-time">1:33</span></td><td>57–64<span class="bar-time">1:48</span></td><td>65–72<span class="bar-time">2:04</span></td><td>73–80<span class="bar-time">2:19</span></td>
+          <td>81–88<span class="bar-time">2:35</span></td><td>89–96<span class="bar-time">2:50</span></td><td>97–104<span class="bar-time">3:06</span></td>
+          <td>105–112<span class="bar-time">3:21</span></td><td>113–120<span class="bar-time">3:37</span></td>
+          <td>121–128<span class="bar-time">3:52</span></td><td>129–136<span class="bar-time">4:08</span></td><td>137–144<span class="bar-time">4:23</span></td><td>145–152<span class="bar-time">4:39</span></td><td>153–160<span class="bar-time">4:54</span></td><td>161–168<span class="bar-time">5:10</span></td>
+          <td>169–176<span class="bar-time">5:25</span></td><td>177–184<span class="bar-time">5:41</span></td><td>185–192<span class="bar-time">5:56</span></td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ KICKS</td></tr>
+        <tr>
+          <td class="tl grp-kick">KICK<span class="tl-sub">4-on-floor</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-kick">SUB KICK<span class="tl-sub">sub layer</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ BASS</td></tr>
+        <tr>
+          <td class="tl grp-bass">BASS LOOP<span class="tl-sub">deep · filter slow</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low"><span>180Hz</span></td><td class="c c-low2"><span>240Hz</span></td><td class="c c-med"><span>320Hz</span></td>
+          <td class="c c-full"><span>600Hz</span></td>
+          <td class="c c-peak"><span>800Hz</span></td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low"><span>200Hz</span></td>
+          <td class="c c-med"><span>400Hz</span></td><td class="c c-peak"><span>900Hz</span></td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ HI-HATS</td></tr>
+        <tr>
+          <td class="tl grp-hats">HAT CERRADO<span class="tl-sub">desde bar 9</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT ABIERTO<span class="tl-sub">desde bar 17</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT LOOP<span class="tl-sub">desde bar 25</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">SHAKER<span class="tl-sub">8th siempre</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">RIDE<span class="tl-sub">★ presente desde bar 1</span></td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-low">L</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ PERCUSIÓN</td></tr>
+        <tr>
+          <td class="tl grp-perc">CLAP<span class="tl-sub">beat 2 & 4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">SNARE<span class="tl-sub">ghost + accents</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-med">M</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">RIMSHOT<span class="tl-sub">syncopated</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LO<span class="tl-sub">desde bar 9</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA HI<span class="tl-sub">desde bar 17</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LOOP<span class="tl-sub">groove afro</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">BONGO<span class="tl-sub">fills rituales</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full">F</td>
+          <td class="c c-med">M</td><td class="c c-low">L</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 1<span class="tl-sub">desde bar 9</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc" style="border-left:3px solid var(--riser)">PERC LOOP 2<span class="tl-sub">★ ARMA SECRETA drop2</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">TOP LOOP<span class="tl-sub">desde bar 25</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ MELÓDICO · ATMÓSFERAS · FX</td></tr>
+        <tr>
+          <td class="tl grp-atm">DRONE/ATMOS<span class="tl-sub">★ protagonista intro</span></td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm">AT</td>
+          <td class="c c-low">L</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td>
+          <td class="c c-atm">AT</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-atm">AT</td><td class="c c-atm2">AT+</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">PAD / CHORD<span class="tl-sub">breakd + outro</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-fade">↓</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">STAB / SYNTH<span class="tl-sub">1 nota · delay 1/4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">VOCAL MINIMAL<span class="tl-sub">2 palabras · 3 aparic.</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-med">M</td>
+          <td class="c c-cut">CUT</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-fade">↑</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-fade">↓</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-fx">FX / SWEEP<span class="tl-sub">slow · ritual</span></td>
+          <td class="c c-atm">AT</td><td class="c c-atm">AT</td><td class="c c-atm">AT</td><td class="c c-atm">AT</td><td class="c c-fade">AT</td>
+          <td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-fx">FX</td>
+          <td class="c c-fx">FX</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-energy">
+          <td class="tl-e">ENERGÍA →</td>
+          <td><div class="ebar" style="height:14%;background:#1a3a5a"></div></td>
+          <td><div class="ebar" style="height:22%;background:#1e3a1e"></div></td>
+          <td><div class="ebar" style="height:30%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:40%;background:#3a6e35"></div></td>
+          <td><div class="ebar" style="height:54%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:72%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:85%;background:#c8362e"></div></td>
+          <td><div class="ebar" style="height:88%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:90%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:88%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:18%;background:#4a3a6a"></div></td>
+          <td><div class="ebar" style="height:28%;background:#4a3a6a"></div></td>
+          <td><div class="ebar" style="height:36%;background:#5a4a7a"></div></td>
+          <td><div class="ebar" style="height:58%;background:#9a7a20"></div></td>
+          <td><div class="ebar" style="height:80%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:90%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:93%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:100%;background:#ff3030"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:72%;background:#4a8c3f"></div></td>
+          <td><div class="ebar" style="height:46%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:22%;background:#1e3a1e"></div></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="moments-row">
+    <div class="moment gold"><div class="m-bg">1</div><div class="m-bar">BAR 1</div><div class="m-name">DRONE + RIDE</div><div class="m-desc">Solo esto. Trance ritual desde el inicio.</div></div>
+    <div class="moment gold"><div class="m-bg">33</div><div class="m-bar">BAR 33</div><div class="m-name">VOCAL BUILD</div><div class="m-desc">Vocal con 80%wet. Riser masivo 8 bars.</div></div>
+    <div class="moment hot"><div class="m-bg">47</div><div class="m-bar">B47 B4</div><div class="m-name">CUT TOTAL</div><div class="m-desc">1 beat. Solo el reverb del drone.</div></div>
+    <div class="moment hot"><div class="m-bg">49</div><div class="m-bar">BAR 49</div><div class="m-name">DROP 1</div><div class="m-desc">Todo entra. Vocal tardía bar 65.</div></div>
+    <div class="moment" style="border-color:#4a3a6a"><div class="m-bg">81</div><div class="m-bar">BAR 81</div><div class="m-name">BREAKDOWN</div><div class="m-desc">Drone + pad. 24 bars. Emocional.</div></div>
+    <div class="moment hot"><div class="m-bg">121</div><div class="m-bar">BAR 121</div><div class="m-name">DROP 2</div><div class="m-desc">Perc Loop 2 entra. Sorpresa total.</div></div>
+    <div class="moment hot" style="border-color:#ff3030;background:rgba(255,48,48,0.07)"><div class="m-bg">153</div><div class="m-bar">BAR 153</div><div class="m-name">CLÍMAX 3</div><div class="m-desc">Todo peak. Perc2 en su punto más alto.</div></div>
+  </div>
+  <div class="tip blue">
+    <div class="tip-badge">★ V3 KEY</div>
+    <div class="tip-text"><b>El Perc Loop 2 no aparece hasta Bar 121.</b> Nunca lo escuchan en el Drop 1. Cuando llega en el Drop 2, el floor no sabe qué lo golpeó. <b>Guarda tu arma más grande para el final.</b></div>
+  </div>
+</div>
+
+<!-- ════════════════════ V4 — LATE NIGHT MACHINE ════════════════════ -->
+<div class="track-section" id="v4">
+  <div class="ts-header">
+    <div class="ts-num">V4</div>
+    <div>
+      <div class="ts-name">LATE NIGHT MACHINE</div>
+      <div class="ts-artists">Joseph Capriati · Marco Carola · ENRICO Sangiuliano · Afterlife</div>
+    </div>
+    <div class="ts-bpm">130 <span>BPM</span></div>
+  </div>
+  <div class="ts-meta">
+    <div class="ts-tag red">KICK + CONGAS DESDE BAR 1</div>
+    <div class="ts-tag">SIN BREAKDOWN LARGO</div>
+    <div class="ts-tag gold">HAT PATTERN EVOLUCIONA</div>
+    <div class="ts-tag purple">STAB HIPNÓTICO EN LOOP</div>
+    <div class="ts-tag">GROOVE ASCENDENTE SIN RESPIRO</div>
+    <div class="ts-tag blue">SHAKER + RIDE TODO EL TRACK</div>
+  </div>
+  <div class="tip">
+    <div class="tip-badge">FILOSOFÍA</div>
+    <div class="tip-text">
+      <b>El track que toca Capriati a las 5am.</b> Kick y congas desde bar 1 — sin introducción suave.
+      No hay breakdown largo, solo un "desnudo" de 8 bars donde baja el clap y el top loop.
+      El groove hipnótico viene del stab en loop + shaker polyrhythm que NUNCA para.
+      <b>La clave: cada 16 bars algo cambia — nunca lo mismo dos veces.</b>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="scroll-hint">← SCROLL HORIZONTAL →</div>
+    <div class="grid-wrap">
+      <table class="grid-table">
+        <colgroup>
+          <col style="width:130px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px"><col style="width:38px">
+          <col style="width:38px"><col style="width:38px"><col style="width:38px">
+        </colgroup>
+        <tr>
+          <td class="tl" style="background:#000;color:var(--dim);font-size:8px;border:1px solid var(--border)">SECCIÓN →</td>
+          <td colspan="4" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">GROOVE INTRO</td>
+          <td colspan="2" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">BUILD</td>
+          <td colspan="4" style="background:#1a0e0e;text-align:center;font-size:8px;font-weight:700;color:var(--peak2);letter-spacing:.1em;border:1px solid var(--border);padding:5px">PICO 1</td>
+          <td colspan="2" style="background:#0e0e14;text-align:center;font-size:8px;font-weight:700;color:#5a5a9a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">DESNUDO</td>
+          <td colspan="3" style="background:#1a1400;text-align:center;font-size:8px;font-weight:700;color:var(--riser);letter-spacing:.1em;border:1px solid var(--border);padding:5px">REBUILD</td>
+          <td colspan="6" style="background:#1a0808;text-align:center;font-size:8px;font-weight:700;color:#ff4040;letter-spacing:.1em;border:1px solid var(--border);padding:5px">PICO 2 — HIPNÓTICO</td>
+          <td colspan="3" style="background:#0e1a0e;text-align:center;font-size:8px;font-weight:700;color:#2a6a2a;letter-spacing:.1em;border:1px solid var(--border);padding:5px">OUTRO</td>
+        </tr>
+        <tr class="row-bars">
+          <td class="bar-label">BAR →</td>
+          <td>1–8<span class="bar-time">0:00</span></td><td>9–16<span class="bar-time">0:14</span></td><td>17–24<span class="bar-time">0:28</span></td><td>25–32<span class="bar-time">0:43</span></td>
+          <td>33–40<span class="bar-time">0:57</span></td><td>41–48<span class="bar-time">1:12</span></td>
+          <td>49–56<span class="bar-time">1:26</span></td><td>57–64<span class="bar-time">1:41</span></td><td>65–72<span class="bar-time">1:55</span></td><td>73–80<span class="bar-time">2:09</span></td>
+          <td>81–88<span class="bar-time">2:24</span></td><td>89–96<span class="bar-time">2:38</span></td>
+          <td>97–104<span class="bar-time">2:53</span></td><td>105–112<span class="bar-time">3:07</span></td><td>113–120<span class="bar-time">3:22</span></td>
+          <td>121–128<span class="bar-time">3:36</span></td><td>129–136<span class="bar-time">3:50</span></td><td>137–144<span class="bar-time">4:05</span></td><td>145–152<span class="bar-time">4:19</span></td><td>153–160<span class="bar-time">4:34</span></td><td>161–168<span class="bar-time">4:48</span></td>
+          <td>169–176<span class="bar-time">5:03</span></td><td>177–184<span class="bar-time">5:17</span></td><td>185–192<span class="bar-time">5:32</span></td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ KICKS</td></tr>
+        <tr>
+          <td class="tl grp-kick">KICK<span class="tl-sub">≥70% siempre</span></td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med2">M+</td>
+        </tr>
+        <tr>
+          <td class="tl grp-kick">SUB KICK<span class="tl-sub">sub layer</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-med">M</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low2">L+</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ BASS</td></tr>
+        <tr>
+          <td class="tl grp-bass">BASS LOOP<span class="tl-sub">filter 180→900Hz</span></td>
+          <td class="c c-low"><span>180Hz</span></td><td class="c c-low2"><span>260Hz</span></td><td class="c c-med"><span>380Hz</span></td><td class="c c-med2"><span>500Hz</span></td>
+          <td class="c c-full"><span>700Hz</span></td><td class="c c-full2"><span>800Hz</span></td>
+          <td class="c c-peak"><span>900Hz</span></td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med"><span>300Hz</span></td><td class="c c-full"><span>600Hz</span></td>
+          <td class="c c-full2"><span>750Hz</span></td><td class="c c-peak"><span>900Hz</span></td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ HI-HATS</td></tr>
+        <tr>
+          <td class="tl grp-hats">HAT CERRADO<span class="tl-sub">★ evoluciona 4 veces</span></td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med2">M+</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT ABIERTO<span class="tl-sub">off-beat</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low2">L+</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">HAT LOOP<span class="tl-sub">techno shuffle</span></td>
+          <td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med2">M+</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">SHAKER<span class="tl-sub">★ polyrhythm siempre</span></td>
+          <td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-med2">M+</td>
+        </tr>
+        <tr>
+          <td class="tl grp-hats">RIDE<span class="tl-sub">siempre presente</span></td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-med">M</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ PERCUSIÓN</td></tr>
+        <tr>
+          <td class="tl grp-perc">CLAP<span class="tl-sub">2 & 4 · evoluciona</span></td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">SNARE<span class="tl-sub">ghost notes</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">RIMSHOT<span class="tl-sub">techno accent</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LO<span class="tl-sub">★ desde bar 1</span></td>
+          <td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA HI<span class="tl-sub">★ desde bar 1</span></td>
+          <td class="c c-med">M</td><td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">CONGA LOOP<span class="tl-sub">polyrhythm afro</span></td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">BONGO<span class="tl-sub">triplets hypno</span></td>
+          <td class="c c-off">—</td><td class="c c-low">L</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-full2">F+</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 1<span class="tl-sub">desde bar 9</span></td>
+          <td class="c c-off">—</td><td class="c c-low2">L+</td><td class="c c-med">M</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-med2">M+</td><td class="c c-full">F</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">PERC LOOP 2<span class="tl-sub">desde bar 33</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-low">L</td><td class="c c-med2">M+</td>
+          <td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak">PK</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td>
+          <td class="c c-full">F</td><td class="c c-med">M</td><td class="c c-low">L</td>
+        </tr>
+        <tr>
+          <td class="tl grp-perc">TOP LOOP<span class="tl-sub">desde bar 17</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-low2">L+</td><td class="c c-med">M</td>
+          <td class="c c-full">F</td><td class="c c-full2">F+</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-off">—</td><td class="c c-med2">M+</td>
+          <td class="c c-full2">F+</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+
+        <tr class="row-group"><td colspan="25">▶ MELÓDICO · ATMÓSFERAS · FX</td></tr>
+        <tr>
+          <td class="tl grp-atm">DRONE/ATMOS<span class="tl-sub">desnudo only</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-atm2">AT+</td><td class="c c-atm2">AT+</td>
+          <td class="c c-atm">AT</td><td class="c c-low">L</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel" style="border-left:3px solid var(--acid2)">STAB HIPNÓTICO<span class="tl-sub">★ 1 nota delay 1/4</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-low2">L+</td>
+          <td class="c c-med">M</td><td class="c c-full">F</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-med">M</td><td class="c c-full2">F+</td><td class="c c-peak">PK</td>
+          <td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td><td class="c c-peak2">PK+</td>
+          <td class="c c-peak">PK</td><td class="c c-full">F</td><td class="c c-med">M</td>
+        </tr>
+        <tr>
+          <td class="tl grp-mel">VOCAL CHOP<span class="tl-sub">minimal · techno</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-cut">CUT</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-fade">↑</td><td class="c c-peak">PK</td>
+          <td class="c c-off">—</td><td class="c c-low">L</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">↑</td><td class="c c-full">F</td><td class="c c-peak">PK</td><td class="c c-peak2">PK+</td><td class="c c-peak">PK</td><td class="c c-fade">↓</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+        <tr>
+          <td class="tl grp-fx">FX / SWEEP<span class="tl-sub">aggressive</span></td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-fade">AT</td><td class="c c-fx2">RISE</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-low">L</td><td class="c c-fx">FX</td>
+          <td class="c c-fx">FX</td><td class="c c-fx2">RISE</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+          <td class="c c-off">—</td><td class="c c-off">—</td><td class="c c-off">—</td>
+        </tr>
+
+        <tr class="row-energy">
+          <td class="tl-e">ENERGÍA →</td>
+          <td><div class="ebar" style="height:30%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:40%;background:#3a6e35"></div></td>
+          <td><div class="ebar" style="height:52%;background:#4a8c3f"></div></td>
+          <td><div class="ebar" style="height:62%;background:#5aaa4a"></div></td>
+          <td><div class="ebar" style="height:74%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:86%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:94%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:100%;background:#ff3030"></div></td>
+          <td><div class="ebar" style="height:44%;background:#3a3a6a"></div></td>
+          <td><div class="ebar" style="height:52%;background:#4a4a7a"></div></td>
+          <td><div class="ebar" style="height:68%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:82%;background:#c4942a"></div></td>
+          <td><div class="ebar" style="height:90%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:94%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:100%;background:#ff3030"></div></td>
+          <td><div class="ebar" style="height:98%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:96%;background:#e8403a"></div></td>
+          <td><div class="ebar" style="height:76%;background:#4a8c3f"></div></td>
+          <td><div class="ebar" style="height:54%;background:#2d5a2d"></div></td>
+          <td><div class="ebar" style="height:34%;background:#1e3a1e"></div></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="moments-row">
+    <div class="moment hot"><div class="m-bg">1</div><div class="m-bar">BAR 1</div><div class="m-name">KICK + CONGAS</div><div class="m-desc">Sin intro suave. El groove arranca inmediato.</div></div>
+    <div class="moment gold"><div class="m-bg">33</div><div class="m-bar">BAR 33</div><div class="m-name">STAB + BUILD</div><div class="m-desc">Stab hipnótico entra. Riser últimos 4 bars.</div></div>
+    <div class="moment hot"><div class="m-bg">47</div><div class="m-bar">B47 B4</div><div class="m-name">CUT TOTAL</div><div class="m-desc">1 beat. Solo el reverb del stab.</div></div>
+    <div class="moment hot"><div class="m-bg">49</div><div class="m-bar">BAR 49</div><div class="m-name">PICO 1</div><div class="m-desc">Todo full. Stab en loop. Vocal tardía bar 65.</div></div>
+    <div class="moment" style="border-color:#3a3a6a"><div class="m-bg">81</div><div class="m-bar">BAR 81</div><div class="m-name">DESNUDO 16</div><div class="m-desc">Solo kick + congas + shaker. 16 bars sin respiro largo.</div></div>
+    <div class="moment hot"><div class="m-bg">121</div><div class="m-bar">BAR 121</div><div class="m-name">PICO 2</div><div class="m-desc">Todo más agresivo. Stab + perc2 + vocal clímax.</div></div>
+    <div class="moment hot" style="border-color:#ff3030;background:rgba(255,48,48,0.07)"><div class="m-bg">145</div><div class="m-bar">BAR 145</div><div class="m-name">CLÍMAX</div><div class="m-desc">Pico absoluto. Todas las capas al máximo. UNA vez.</div></div>
+  </div>
+  <div class="tip">
+    <div class="tip-badge">★ V4 KEY</div>
+    <div class="tip-text"><b>El "Desnudo" de bars 81–96 no es un breakdown</b> — es solo quitar clap y top loop durante 16 bars. El kick, congas, shaker y ride siguen a tope. <b>Nunca pierde el groove. El crowd no puede parar de moverse.</b></div>
+  </div>
+</div>
+
+<script>
+// Nav active on scroll
+const sections = document.querySelectorAll('.track-section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+}, { passive: true });
+</script>
+</body>
+</html>

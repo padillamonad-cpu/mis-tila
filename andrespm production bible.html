@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANDRES PM — TECH HOUSE PRODUCTION BIBLE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+  :root {
+    --off:   #1a1a1a;
+    --low:   #2d4a2d;
+    --med:   #4a6741;
+    --full:  #6b9e52;
+    --peak:  #e8403a;
+    --cut:   #ff6b35;
+    --fade:  #8b7355;
+    --riser: #c4942a;
+    --bg:    #0a0a0a;
+    --bg2:   #111111;
+    --bg3:   #181818;
+    --border:#2a2a2a;
+    --text:  #e8e8e8;
+    --dim:   #666666;
+    --accent:#e8403a;
+    --mono:  'Space Mono', monospace;
+    --sans:  'Inter', sans-serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top:0; z-index:100;
+    background: #000;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap:0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display:none; }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 11px; font-weight:700;
+    color: var(--accent);
+    padding: 12px 20px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    letter-spacing: 0.1em;
+  }
+  nav a {
+    font-family: var(--mono);
+    font-size: 10px; font-weight:700;
+    color: var(--dim);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    transition: color 0.15s, background 0.15s;
+  }
+  nav a:hover { color: var(--text); background: var(--bg3); }
+  nav a.active { color: var(--accent); }
+
+  /* ── COVER ── */
+  .cover {
+    background: #000;
+    border-bottom: 2px solid var(--accent);
+    padding: 48px 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .cover-title {
+    font-family: var(--mono);
+    font-size: clamp(22px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #fff;
+  }
+  .cover-title span { color: var(--accent); }
+  .cover-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+  .cover-stats {
+    display: flex; gap: 2px;
+  }
+  .stat {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    text-align: center;
+    min-width: 70px;
+  }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 22px; font-weight:700;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    border-bottom: 1px solid var(--border);
+    padding: 40px 32px;
+  }
+  section:last-child { border-bottom: none; }
+
+  .sec-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 11px; font-weight:700;
+    color: var(--accent);
+    background: rgba(232,64,58,0.12);
+    border: 1px solid rgba(232,64,58,0.3);
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+  }
+  .sec-title {
+    font-family: var(--mono);
+    font-size: 16px; font-weight:700;
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
+  .sec-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    margin-left: auto;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 20px;
+  }
+  .leg {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--dim);
+  }
+  .leg-dot {
+    width: 20px; height: 12px;
+    border-radius: 2px;
+  }
+
+  /* ── ARRANGEMENT GRID ── */
+  .arr-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    /* Scroll shadow: shows right edge hint on mobile */
+    background:
+      linear-gradient(to right, var(--bg3) 0%, transparent 12px) left center,
+      linear-gradient(to left,  rgba(232,64,58,0.18) 0%, transparent 20px) right center;
+    background-attachment: local, scroll;
+    background-repeat: no-repeat;
+    background-size: 40px 100%, 28px 100%;
+  }
+  /* Mobile swipe hint label */
+  .arr-scroll-hint {
+    display: none;
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    text-align: right;
+    padding: 4px 0 8px;
+  }
+  @media (max-width: 900px) {
+    .arr-scroll-hint { display: block; }
+  }
+  .arr-table {
+    border-collapse: collapse;
+    min-width: 1100px;
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+  .arr-table th, .arr-table td {
+    padding: 0;
+    border: 1px solid #1e1e1e;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* section header row */
+  .arr-table .row-sections th {
+    background: #000;
+    color: var(--dim);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 6px 4px;
+    font-weight: 700;
+    border-top: 2px solid var(--accent);
+  }
+  .arr-table .row-sections th.sec-intro  { border-top-color: #3a5a3a; }
+  .arr-table .row-sections th.sec-build  { border-top-color: var(--riser); }
+  .arr-table .row-sections th.sec-drop1  { border-top-color: var(--accent); }
+  .arr-table .row-sections th.sec-bkdn   { border-top-color: #4a3a6a; }
+  .arr-table .row-sections th.sec-rebuild{ border-top-color: var(--riser); }
+  .arr-table .row-sections th.sec-drop2  { border-top-color: var(--accent); }
+  .arr-table .row-sections th.sec-outro  { border-top-color: #3a5a3a; }
+
+  /* bar numbers row */
+  .arr-table .row-bars td {
+    background: #0d0d0d;
+    color: var(--dim);
+    font-size: 9px;
+    padding: 3px 2px;
+    font-weight:400;
+    line-height: 1.2;
+  }
+  .arr-table .row-bars td .time {
+    display: block;
+    color: #333;
+    font-size: 8px;
+  }
+
+  /* track label */
+  .arr-table .track-label {
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 9px;
+    font-weight: 700;
+    text-align: left;
+    padding: 7px 10px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    min-width: 90px;
+  }
+  .arr-table .track-label .plus {
+    color: var(--riser);
+    font-size: 8px;
+  }
+
+  /* energy cells */
+  .c-off  { background: var(--off);  color: #333; }
+  .c-low  { background: var(--low);  color: #7ab87a; }
+  .c-med  { background: var(--med);  color: #b8d4a0; }
+  .c-full { background: var(--full); color: #e8f5d8; }
+  .c-peak { background: var(--peak); color: #fff; font-weight:700; }
+  .c-cut  { background: #000; color: var(--cut); font-weight:700; border: 1px solid var(--cut) !important; }
+  .c-fade { background: var(--fade); color: #d4c4a0; font-style: italic; }
+  .c-fx   { background: var(--riser); color: #000; font-weight:700; }
+
+  .arr-table td.cell {
+    font-size: 8px;
+    padding: 6px 2px;
+    letter-spacing: 0.02em;
+    height: 28px;
+  }
+
+  /* energy bar row */
+  .arr-table .row-energy td {
+    background: #000;
+    padding: 4px 2px;
+    height: 32px;
+    vertical-align: bottom;
+    border-top: 2px solid #1e1e1e;
+  }
+  .energy-bar {
+    width: 100%; border-radius: 1px;
+    transition: height 0.3s;
+  }
+
+  /* ── BPM BADGE ── */
+  .bpm-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    margin-bottom: 16px;
+    font-family: var(--mono);
+  }
+  .bpm-num { font-size: 20px; font-weight:700; color: var(--accent); }
+  .bpm-label { font-size: 9px; color: var(--dim); letter-spacing: 0.1em; }
+  .bpm-sub { font-size: 10px; color: var(--dim); margin-left: 4px; }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    font-family: var(--mono); font-size: 10px; font-weight:700;
+    color: var(--dim);
+    background: none; border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── AUTOMATION CHARTS ── */
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2px;
+  }
+  .auto-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .auto-title {
+    font-family: var(--mono); font-size: 10px; font-weight:700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .auto-sub {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim);
+    margin-bottom: 16px;
+  }
+  .chart-wrap {
+    position: relative;
+    height: 120px;
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    overflow: hidden;
+  }
+  .chart-wrap svg {
+    width: 100%; height: 100%;
+  }
+  .chart-labels {
+    display: flex; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .chart-labels span {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--dim); letter-spacing: 0.05em;
+  }
+
+  .section-markers {
+    display: flex; margin-top: 2px;
+  }
+  .sm {
+    font-family: var(--mono); font-size: 7px;
+    color: var(--dim); text-align:center;
+    border-left: 1px solid #1e1e1e;
+    padding: 2px 0;
+    flex: 1;
+  }
+  .sm:first-child { border-left: none; }
+  .sm.drop { color: var(--accent); }
+  .sm.bkdn { color: #8b6baa; }
+  .sm.build { color: var(--riser); }
+
+  /* ── REFERENCE TABLE ── */
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+  .ref-table th {
+    background: #000;
+    color: var(--dim);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .ref-table th.drop-h { color: var(--accent); }
+  .ref-table th.bkdn-h { color: #8b6baa; }
+  .ref-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #161616;
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .ref-table tr:hover td { background: var(--bg3); }
+  .ref-table .param {
+    color: var(--dim); font-size: 9px; letter-spacing: 0.08em;
+  }
+  .ref-table .val-peak { color: var(--accent); font-weight:700; }
+  .ref-table .val-bkdn { color: #8b6baa; }
+  .ref-table .val-off  { color: #333; }
+  .ref-table .val-note { color: var(--riser); }
+
+  /* ── SIDECHAIN ── */
+  .sc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 24px;
+  }
+  .sc-pattern {
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    padding: 16px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sc-label {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim); letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .sc-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 16px;
+  }
+  .sc-param {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .sc-param-val {
+    font-family: var(--mono); font-size: 18px; font-weight:700;
+    color: var(--accent);
+    display: block;
+  }
+  .sc-param-key {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--dim); letter-spacing: 0.08em;
+    display: block; margin-top: 3px;
+  }
+  .sc-param.alt .sc-param-val { color: var(--riser); }
+  .sc-param.off .sc-param-val { color: var(--dim); }
+
+  /* ── STEPS ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2px;
+  }
+  .step {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 16px 14px;
+    position: relative;
+  }
+  .step-num {
+    font-family: var(--mono); font-size: 28px; font-weight:700;
+    color: #1e1e1e;
+    position: absolute; top: 8px; right: 12px;
+    line-height: 1;
+  }
+  .step-title {
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .step-body {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim);
+    line-height: 1.5;
+  }
+
+  /* ── PRO TIP ── */
+  .pro-tip {
+    background: #0d0d0d;
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    margin-top: 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .pro-tip-badge {
+    font-family: var(--mono); font-size: 8px; font-weight:700;
+    color: var(--accent); letter-spacing: 0.12em;
+    white-space: nowrap; margin-top: 1px;
+  }
+  .pro-tip-text {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--dim); line-height: 1.6;
+  }
+  .pro-tip-text b { color: var(--text); }
+
+  /* ── CURVE DEMOS ── */
+  .curves-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 24px;
+  }
+  .curve-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .curve-title {
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--text); letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .curve-use {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--dim); margin-bottom: 10px;
+  }
+  .curve-svg-wrap {
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    height: 70px;
+    overflow: hidden;
+  }
+
+  /* ── TECHNIQUES TABLE ── */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+  .tech-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 14px;
+  }
+  .tech-card-title {
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--accent); letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tech-mini {
+    background: #0d0d0d;
+    height: 50px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .tech-row {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 8px;
+    color: var(--dim); padding: 2px 0;
+  }
+  .tech-row span:last-child { color: var(--text); }
+
+  /* ── 8 MOMENTOS ── */
+  .moments-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .moment {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 16px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .moment.critical {
+    border-color: var(--accent);
+    background: rgba(232,64,58,0.06);
+  }
+  .moment-bar {
+    font-family: var(--mono); font-size: 22px; font-weight:700;
+    color: var(--accent); line-height:1;
+    margin-bottom: 6px;
+  }
+  .moment.critical .moment-bar { color: #ff6b6b; }
+  .moment-name {
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--text); letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .moment-desc {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--dim); line-height: 1.5;
+  }
+  .moment-bg-num {
+    position: absolute; bottom: -8px; right: 4px;
+    font-family: var(--mono); font-size: 56px; font-weight:700;
+    color: #1a1a1a; line-height:1;
+    pointer-events: none;
+  }
+
+  /* ── EQ SPECTRUM ── */
+  .eq-wrap {
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    padding: 16px;
+    margin-bottom: 2px;
+  }
+  .eq-bars {
+    display: flex; align-items: flex-end; gap: 2px;
+    height: 80px;
+    margin-bottom: 6px;
+  }
+  .eq-bar-wrap { flex:1; display: flex; flex-direction: column; align-items: center; gap:4px; }
+  .eq-bar {
+    width: 100%;
+    border-radius: 1px 1px 0 0;
+    position: relative;
+  }
+  .eq-freq {
+    font-family: var(--mono); font-size: 7px;
+    color: var(--dim); text-align:center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .eq-zone {
+    font-family: var(--mono); font-size: 7px; font-weight:700;
+    text-align: center; padding: 3px 2px;
+  }
+
+  /* ── SHORTCUTS ── */
+  .shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2px;
+  }
+  .shortcut-group {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .shortcut-group-title {
+    background: #000;
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--accent); letter-spacing: 0.1em;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .shortcut-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 12px;
+    border-bottom: 1px solid #161616;
+  }
+  .shortcut-row:last-child { border-bottom: none; }
+  .shortcut-action {
+    font-family: var(--mono); font-size: 9px; color: var(--dim);
+  }
+  .shortcut-key {
+    font-family: var(--mono); font-size: 9px; font-weight:700;
+    color: var(--text);
+    background: #1e1e1e;
+    border: 1px solid #333;
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* ── MINI GRID inside section ── */
+  .mini-grid {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+  }
+  .mini-table {
+    border-collapse: collapse;
+    font-family: var(--mono); font-size: 9px;
+    min-width: 500px; width: 100%;
+  }
+  .mini-table th {
+    background: #000;
+    color: var(--dim); font-size: 8px; letter-spacing: 0.1em;
+    padding: 6px 10px;
+    text-align: center;
+    border: 1px solid #1e1e1e;
+  }
+  .mini-table th.lh { text-align: left; min-width: 100px; }
+  .mini-table td {
+    border: 1px solid #1e1e1e;
+    text-align: center;
+    padding: 6px 4px;
+    height: 26px;
+  }
+  .mini-table .tl {
+    text-align: left;
+    padding-left: 10px;
+    color: var(--text);
+    font-weight: 700;
+    background: var(--bg3);
+    white-space: nowrap;
+  }
+
+  /* ── CUT CARDS ── */
+  .cut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 16px;
+  }
+  .cut-card {
+    background: #000;
+    border: 2px solid var(--cut);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cut-num {
+    font-family: var(--mono); font-size: 10px; font-weight:700;
+    color: var(--cut); letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .cut-bar-big {
+    font-family: var(--mono); font-size: 32px; font-weight:700;
+    color: #fff; line-height:1;
+    margin-bottom: 6px;
+  }
+  .cut-bar-big span { color: var(--cut); font-size: 18px; }
+  .cut-desc {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim); line-height: 1.6;
+  }
+  .cut-bg {
+    position: absolute; bottom:-10px; right: 8px;
+    font-family: var(--mono); font-size: 80px; font-weight:700;
+    color: #0d0d0d; line-height:1;
+    pointer-events: none;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* QUOTE */
+  .quote-block {
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 24px 0;
+    background: #0d0d0d;
+  }
+  .quote-text {
+    font-family: var(--mono); font-size: 14px; font-weight:700;
+    color: #fff; line-height:1.4;
+    margin-bottom: 8px;
+  }
+  .quote-attr {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim); letter-spacing: 0.1em;
+  }
+
+  /* RULE CARDS */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .rule-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 20px 16px;
+    position: relative; overflow: hidden;
+  }
+  .rule-num {
+    font-family: var(--mono); font-size: 48px; font-weight:700;
+    color: #1e1e1e; line-height:1;
+    position: absolute; top: 8px; right: 8px;
+    pointer-events: none;
+  }
+  .rule-title {
+    font-family: var(--mono); font-size: 10px; font-weight:700;
+    color: var(--accent); letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .rule-body {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--dim); line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .rule-bullets { list-style: none; }
+  .rule-bullets li {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--text);
+    padding: 3px 0 3px 12px;
+    position: relative;
+    border-top: 1px solid #1e1e1e;
+  }
+  .rule-bullets li::before {
+    content: '▸';
+    color: var(--accent);
+    position: absolute; left: 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    section { padding: 24px 16px; }
+    .cover { padding: 24px 16px; grid-template-columns: 1fr; }
+    .rules-grid, .moments-grid, .curves-grid, .tech-grid { grid-template-columns: 1fr 1fr; }
+    .sc-params { grid-template-columns: repeat(4, 1fr); }
+    .cut-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ANDRES PM</div>
+  <a href="#arrangements" class="active">ARRANGEMENTS</a>
+  <a href="#automatizaciones">AUTOMATIONS</a>
+  <a href="#sidechain">SIDECHAIN</a>
+  <a href="#momentos">8 MOMENTOS</a>
+  <a href="#fx-chains">FX CHAINS</a>
+  <a href="#eq">EQ / FREQ</a>
+  <a href="#reglas">6 REGLAS</a>
+  <a href="#checklist">CHECKLIST</a>
+  <a href="#shortcuts">ATAJOS</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div>
+    <div class="cover-eyebrow">TECH HOUSE PRODUCTION BIBLE · EDICIÓN FUSIÓN</div>
+    <div class="cover-title">ANDRES PM<br><span>IBIZA HIT FORMULA</span></div>
+    <div class="cover-sub">Capriati · Jamie Jones · Richie Ahmed · Music On · Hot Creations · Solid Grooves</div>
+  </div>
+  <div class="cover-stats">
+    <div class="stat"><span class="stat-num">192</span><span class="stat-label">BARS</span></div>
+    <div class="stat"><span class="stat-num">6:00</span><span class="stat-label">MIN</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">VAR.</span></div>
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">REGLAS</span></div>
+    <div class="stat"><span class="stat-num">1</span><span class="stat-label">CLÍMAX</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ ARRANGEMENTS ══ -->
+<section id="arrangements">
+  <div class="sec-header">
+    <div class="sec-num">MOD 09</div>
+    <div class="sec-title">PLANTILLAS BAR A BAR</div>
+    <div class="sec-sub">Cada bloque = 8 bars · LOW / MED / FULL / PEAK / CUT</div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--off)"></div>OFF</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--low)"></div>LOW</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--med)"></div>MED</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--full)"></div>FULL</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--peak)"></div>PEAK</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--cut); border:1px solid var(--cut)"></div>CUT</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--riser)"></div>FX/RISER</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('v1', this)">V1 — SOUL FIRST · 126 BPM</button>
+    <button class="tab-btn" onclick="showTab('v2', this)">V2 — DRUM MACHINE · 130 BPM</button>
+    <button class="tab-btn" onclick="showTab('v3', this)">V3 — CHICAGO SOUL · 124 BPM</button>
+  </div>
+
+  <!-- V1 -->
+  <div id="v1" class="tab-content active">
+    <div class="bpm-badge">
+      <span class="bpm-num">126</span>
+      <span class="bpm-label">BPM</span>
+      <span class="bpm-sub">Jamie Jones · Hot Creations · Estructura estándar Ibiza</span>
+    </div>
+    <div class="arr-scroll-hint">← SCROLL →</div><div class="arr-wrap">
+      <table class="arr-table">
+        <thead>
+          <tr class="row-sections">
+            <th style="min-width:90px;background:#000;border:none;"></th>
+            <th colspan="4" class="sec-intro">INTRO</th>
+            <th colspan="2" class="sec-build">BUILD</th>
+            <th colspan="4" class="sec-drop1">DROP 1</th>
+            <th colspan="3" class="sec-bkdn">BREAKDOWN</th>
+            <th colspan="3" class="sec-rebuild">REBUILD</th>
+            <th colspan="6" class="sec-drop2">DROP 2</th>
+            <th colspan="3" class="sec-outro">OUTRO</th>
+          </tr>
+          <tr class="row-bars">
+            <td style="background:var(--bg3);"></td>
+            <td>1–8<span class="time">0:00</span></td>
+            <td>9–16<span class="time">0:15</span></td>
+            <td>17–24<span class="time">0:30</span></td>
+            <td>25–32<span class="time">0:45</span></td>
+            <td>33–40<span class="time">1:00</span></td>
+            <td>41–48<span class="time">1:16</span></td>
+            <td>49–56<span class="time">1:31</span></td>
+            <td>57–64<span class="time">1:46</span></td>
+            <td>65–72<span class="time">2:01</span></td>
+            <td>73–80<span class="time">2:17</span></td>
+            <td>81–88<span class="time">2:32</span></td>
+            <td>89–96<span class="time">2:47</span></td>
+            <td>97–104<span class="time">3:02</span></td>
+            <td>105–112<span class="time">3:18</span></td>
+            <td>113–120<span class="time">3:33</span></td>
+            <td>121–128<span class="time">3:48</span></td>
+            <td>129–136<span class="time">4:03</span></td>
+            <td>137–144<span class="time">4:19</span></td>
+            <td>145–152<span class="time">4:34</span></td>
+            <td>153–160<span class="time">4:49</span></td>
+            <td>161–168<span class="time">5:04</span></td>
+            <td>169–176<span class="time">5:20</span></td>
+            <td>177–184<span class="time">5:35</span></td>
+            <td>185–192<span class="time">5:50</span></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="track-label">KICK</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+          </tr>
+          <tr>
+            <td class="track-label">BASS</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+          </tr>
+          <tr>
+            <td class="track-label">CLAP</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-low">LOW</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-med">MED</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">HAT LOOP</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+          </tr>
+          <tr>
+            <td class="track-label">TOP LOOP 1</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">PERC 1</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">PERC 2</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">VOCAL</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-med">MED</td><td class="cell c-cut">CUT</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-fade">FADE↑</td><td class="cell c-peak">PK</td>
+            <td class="cell c-off">—</td><td class="cell c-full">FULL</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-fade">FADE↑</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-fade">FADE↓</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">FX/SWEEP <span class="plus">[+]</span></td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-med">MED</td><td class="cell c-fx">RISER</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-fx">RISER</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">DRONE <span class="plus">[+]</span></td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-fade">FADE↓</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">STAB <span class="plus">[+]</span></td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <!-- ENERGY ROW -->
+          <tr class="row-energy">
+            <td style="background:var(--bg3);"></td>
+            <td><div class="energy-bar" style="height:20%;background:#2d4a2d"></div></td>
+            <td><div class="energy-bar" style="height:28%;background:#2d4a2d"></div></td>
+            <td><div class="energy-bar" style="height:36%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:44%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:62%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:78%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:90%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:92%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:88%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:85%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:22%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:30%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:28%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:42%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:60%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:92%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:94%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:88%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:100%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:82%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:72%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:50%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:35%;background:#2d4a2d"></div></td>
+            <td><div class="energy-bar" style="height:20%;background:#2d4a2d"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pro-tip">
+      <div class="pro-tip-badge">★ KEY</div>
+      <div class="pro-tip-text">La vocal aparece en el Build (promesa) y <b>sorprende dentro del Drop 1</b>. El Stab entra suave en el Build y protagoniza en el Drop 2. <b>Una sola nota con Delay 1/4.</b></div>
+    </div>
+  </div>
+
+  <!-- V2 -->
+  <div id="v2" class="tab-content">
+    <div class="bpm-badge">
+      <span class="bpm-num">130</span>
+      <span class="bpm-label">BPM</span>
+      <span class="bpm-sub">Joseph Capriati · Marco Carola · Hipnosis total · Kick nunca baja de 70%</span>
+    </div>
+    <div class="arr-scroll-hint">← SCROLL →</div><div class="arr-wrap">
+      <table class="arr-table">
+        <thead>
+          <tr class="row-sections">
+            <th style="min-width:90px;background:#000;border:none;"></th>
+            <th colspan="4" class="sec-intro">INTRO LARGO</th>
+            <th colspan="2" class="sec-build">BUILD</th>
+            <th colspan="4" class="sec-drop1">PICO ÚNICO</th>
+            <th colspan="2" class="sec-bkdn">RESPIRO</th>
+            <th colspan="5" class="sec-rebuild">STRIP BACK</th>
+            <th colspan="6" class="sec-drop2">DROP 2</th>
+            <th colspan="3" class="sec-outro">OUTRO</th>
+          </tr>
+          <tr class="row-bars">
+            <td style="background:var(--bg3);"></td>
+            <td>1–8<span class="time">0:00</span></td><td>9–16<span class="time">0:14</span></td><td>17–24<span class="time">0:29</span></td><td>25–32<span class="time">0:44</span></td>
+            <td>33–40<span class="time">0:59</span></td><td>41–48<span class="time">1:13</span></td>
+            <td>49–56<span class="time">1:28</span></td><td>57–64<span class="time">1:43</span></td><td>65–72<span class="time">1:58</span></td><td>73–80<span class="time">2:12</span></td>
+            <td>81–88<span class="time">2:27</span></td><td>89–96<span class="time">2:42</span></td>
+            <td>97–104<span class="time">2:57</span></td><td>105–112<span class="time">3:12</span></td><td>113–120<span class="time">3:26</span></td><td>121–128<span class="time">3:41</span></td><td>129–136<span class="time">3:56</span></td>
+            <td>137–144<span class="time">4:11</span></td><td>145–152<span class="time">4:25</span></td><td>153–160<span class="time">4:40</span></td><td>161–168<span class="time">4:55</span></td><td>169–176<span class="time">5:10</span></td><td>177–184<span class="time">5:24</span></td>
+            <td>185–192<span class="time">5:39</span></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="track-label">KICK <span style="color:var(--accent);font-size:8px">≥70%</span></td>
+            <td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-low">LOW</td>
+          </tr>
+          <tr>
+            <td class="track-label">BASS</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">HAT LOOP</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">STAB HIP. <span class="plus">[+]</span></td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td>
+            <td class="cell c-med">MED</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">DRONE <span class="plus">[+]</span></td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td>
+          </tr>
+          <tr class="row-energy">
+            <td style="background:var(--bg3);"></td>
+            <td><div class="energy-bar" style="height:30%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:38%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:50%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:60%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:72%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:82%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:95%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:98%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:96%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:94%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:50%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:55%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:70%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:80%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:85%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:90%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:88%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:92%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:88%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:78%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:65%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:52%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:36%;background:#2d4a2d"></div></td>
+            <td><div class="energy-bar" style="height:18%;background:#2d4a2d"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pro-tip">
+      <div class="pro-tip-badge">★ KEY</div>
+      <div class="pro-tip-text">El Kick <b>NUNCA baja de 70%</b>. Ni en el momento más desnudo. El Stab en loop crea la hipnosis — <b>una nota + Delay 1/4 + Feedback 35%.</b></div>
+    </div>
+  </div>
+
+  <!-- V3 -->
+  <div id="v3" class="tab-content">
+    <div class="bpm-badge">
+      <span class="bpm-num">124</span>
+      <span class="bpm-label">BPM</span>
+      <span class="bpm-sub">Richie Ahmed · House Clásico · Vocal a cappella desde Bar 1 · 3 Drops</span>
+    </div>
+    <div class="arr-scroll-hint">← SCROLL →</div><div class="arr-wrap">
+      <table class="arr-table">
+        <thead>
+          <tr class="row-sections">
+            <th style="min-width:90px;background:#000;border:none;"></th>
+            <th colspan="2" class="sec-intro">INTRO VOC</th>
+            <th colspan="2" class="sec-intro">VOC GROOVE</th>
+            <th colspan="4" class="sec-drop1">DROP 1</th>
+            <th colspan="3" class="sec-bkdn">VOC STORY</th>
+            <th colspan="3" class="sec-rebuild">BUILD 2</th>
+            <th colspan="3" class="sec-drop2">DROP 2</th>
+            <th colspan="2" class="sec-drop2" style="border-top-color:#ff6b35">CLÍMAX</th>
+            <th colspan="4" class="sec-outro">OUTRO</th>
+          </tr>
+          <tr class="row-bars">
+            <td style="background:var(--bg3);"></td>
+            <td>1–8<span class="time">0:00</span></td><td>9–16<span class="time">0:15</span></td>
+            <td>17–24<span class="time">0:30</span></td><td>25–32<span class="time">0:46</span></td>
+            <td>33–40<span class="time">1:01</span></td><td>41–48<span class="time">1:17</span></td><td>49–56<span class="time">1:32</span></td><td>57–64<span class="time">1:48</span></td>
+            <td>65–72<span class="time">2:03</span></td><td>73–80<span class="time">2:19</span></td><td>81–88<span class="time">2:34</span></td>
+            <td>89–96<span class="time">2:50</span></td><td>97–104<span class="time">3:05</span></td><td>105–112<span class="time">3:21</span></td>
+            <td>113–120<span class="time">3:36</span></td><td>121–128<span class="time">3:52</span></td><td>129–136<span class="time">4:07</span></td>
+            <td>137–144<span class="time">4:23</span></td><td>145–152<span class="time">4:38</span></td>
+            <td>153–160<span class="time">4:54</span></td><td>161–168<span class="time">5:09</span></td><td>169–176<span class="time">5:25</span></td><td>177–184<span class="time">5:40</span></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="track-label">KICK</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-off">—</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td>
+          </tr>
+          <tr>
+            <td class="track-label">VOCAL <span style="color:var(--accent);font-size:8px">SIEMPRE</span></td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td>
+            <td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-med">MED</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-full">FULL</td><td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">BASS</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-med">MED</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">STAB <span class="plus">[+]</span></td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-low">LOW</td><td class="cell c-med">MED</td><td class="cell c-full">FULL</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-full">FULL</td><td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-peak">PK</td><td class="cell c-peak">PK</td>
+            <td class="cell c-full">FULL</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr>
+            <td class="track-label">DRONE <span class="plus">[+]</span></td>
+            <td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-med">MED</td><td class="cell c-med">MED</td>
+            <td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-peak">PK</td><td class="cell c-full">FULL</td><td class="cell c-full">FULL</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td>
+            <td class="cell c-off">—</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+            <td class="cell c-low">LOW</td><td class="cell c-med">MED</td>
+            <td class="cell c-med">MED</td><td class="cell c-low">LOW</td><td class="cell c-off">—</td><td class="cell c-off">—</td>
+          </tr>
+          <tr class="row-energy">
+            <td style="background:var(--bg3);"></td>
+            <td><div class="energy-bar" style="height:30%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:36%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:44%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:52%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:65%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:72%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:85%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:90%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:25%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:32%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:38%;background:#4a3a6a"></div></td>
+            <td><div class="energy-bar" style="height:45%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:60%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:70%;background:#c4942a"></div></td>
+            <td><div class="energy-bar" style="height:85%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:90%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:92%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:96%;background:#e8403a"></div></td>
+            <td><div class="energy-bar" style="height:100%;background:#ff3030"></div></td>
+            <td><div class="energy-bar" style="height:72%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:55%;background:#4a6741"></div></td>
+            <td><div class="energy-bar" style="height:35%;background:#2d4a2d"></div></td>
+            <td><div class="energy-bar" style="height:18%;background:#2d4a2d"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pro-tip">
+      <div class="pro-tip-badge">★ KEY</div>
+      <div class="pro-tip-text">V3 empieza con <b>vocal a cappella pura</b> — sin kick, sin bass. Bars 65–88: sin kick, solo vocal sobre drone. <b>El momento más emocional de las 3 variaciones.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ AUTOMATIZACIONES ══ -->
+<section id="automatizaciones">
+  <div class="sec-header">
+    <div class="sec-num">MOD 03</div>
+    <div class="sec-title">AUTOMATIZACIONES — CURVAS CRÍTICAS</div>
+    <div class="sec-sub">Breakpoints exactos · Copia a Ableton</div>
+  </div>
+
+  <div class="curves-grid">
+    <div class="curve-card">
+      <div class="curve-title">FADE IN LINEAL</div>
+      <div class="curve-use">Bass intro · Kick fade out</div>
+      <div class="curve-svg-wrap">
+        <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#2d4a2d"/><stop offset="100%" style="stop-color:#6b9e52"/></linearGradient></defs>
+          <polygon points="0,70 200,0 200,70" fill="url(#g1)" opacity="0.4"/>
+          <line x1="0" y1="70" x2="200" y2="0" stroke="#6b9e52" stroke-width="2"/>
+          <circle cx="0" cy="70" r="3" fill="#6b9e52"/>
+          <circle cx="200" cy="0" r="3" fill="#6b9e52"/>
+          <text x="4" y="65" fill="#2d4a2d" font-size="8" font-family="Space Mono">0%</text>
+          <text x="160" y="12" fill="#6b9e52" font-size="8" font-family="Space Mono">100%</text>
+        </svg>
+      </div>
+    </div>
+    <div class="curve-card">
+      <div class="curve-title">FADE IN CURVO (ORGÁNICO)</div>
+      <div class="curve-use">Vocal · Pad · Drone — más natural</div>
+      <div class="curve-svg-wrap">
+        <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+          <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#c4942a"/><stop offset="100%" style="stop-color:#e8b84b"/></linearGradient></defs>
+          <path d="M0,70 Q160,68 200,0 L200,70 Z" fill="url(#g2)" opacity="0.3"/>
+          <path d="M0,70 Q160,68 200,0" stroke="#c4942a" stroke-width="2" fill="none"/>
+          <circle cx="0" cy="70" r="3" fill="#c4942a"/>
+          <circle cx="200" cy="0" r="3" fill="#c4942a"/>
+          <text x="4" y="65" fill="#666" font-size="8" font-family="Space Mono">0%</text>
+          <text x="160" y="12" fill="#c4942a" font-size="8" font-family="Space Mono">100%</text>
+        </svg>
+      </div>
+    </div>
+    <div class="curve-card">
+      <div class="curve-title">HARD CUT (CORTE TOTAL)</div>
+      <div class="curve-use">CUT bar 47 · Silencio breakdown</div>
+      <div class="curve-svg-wrap">
+        <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+          <rect x="0" y="0" width="120" height="70" fill="#e8403a" opacity="0.15"/>
+          <line x1="0" y1="5" x2="120" y2="5" stroke="#e8403a" stroke-width="2"/>
+          <line x1="120" y1="5" x2="120" y2="65" stroke="#e8403a" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="120" y1="65" x2="200" y2="65" stroke="#333" stroke-width="2"/>
+          <circle cx="120" cy="5" r="3" fill="#e8403a"/>
+          <circle cx="120" cy="65" r="3" fill="#333"/>
+          <text x="4" y="18" fill="#e8403a" font-size="8" font-family="Space Mono">100%</text>
+          <text x="130" y="62" fill="#444" font-size="8" font-family="Space Mono">0%</text>
+          <text x="118" y="40" fill="#ff6b35" font-size="9" font-family="Space Mono" text-anchor="middle">CUT</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="auto-grid">
+    <!-- KICK -->
+    <div class="auto-card">
+      <div class="auto-title">KICK — VOLUMEN</div>
+      <div class="auto-sub">REGLA: NUNCA a 0% — mínimo 30% en breakdown</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gk" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#e8403a;stop-opacity:0.4"/>
+              <stop offset="100%" style="stop-color:#e8403a;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <!-- grid lines -->
+          <line x1="0" y1="24" x2="400" y2="24" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="48" x2="400" y2="48" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="72" x2="400" y2="72" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="96" x2="400" y2="96" stroke="#1e1e1e" stroke-width="1"/>
+          <!-- section dividers -->
+          <line x1="67" y1="0" x2="67" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="100" y1="0" x2="100" y2="120" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="133" y1="0" x2="133" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="215" y1="0" x2="215" y2="120" stroke="#4a3a6a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="270" y1="0" x2="270" y2="120" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="310" y1="0" x2="310" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="360" y1="0" x2="360" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- curve: bars mapped 0-400, values inverted (0=bottom=120, 100%=top=0) -->
+          <!-- BAR1=70% y=36, BAR33=85% y=18, BAR49=100% y=0, BAR81=30% y=84, BAR113=70% y=36, BAR121=100% y=0, BAR169=100% y=0, BAR185=70% y=36 -->
+          <!-- x: bar1=0, bar33=67, bar47=96, bar49=100, bar81=165, bar105=215, bar113=230, bar121=247, bar145=295, bar169=344, bar185=377, bar192=400 -->
+          <polygon points="0,36 67,18 100,0 133,0 165,84 230,36 247,0 295,0 344,0 377,36 400,36 400,120 0,120" fill="url(#gk)"/>
+          <polyline points="0,36 67,18 100,0 133,0 165,84 230,36 247,0 295,0 344,0 377,36 400,36" stroke="#e8403a" stroke-width="2" fill="none"/>
+          <!-- breakpoints -->
+          <circle cx="0" cy="36" r="3" fill="#e8403a"/>
+          <circle cx="67" cy="18" r="3" fill="#e8403a"/>
+          <circle cx="133" cy="0" r="3" fill="#e8403a"/>
+          <circle cx="165" cy="84" r="4" fill="#4a3a6a" stroke="#8b6baa" stroke-width="1.5"/>
+          <circle cx="230" cy="36" r="3" fill="#e8403a"/>
+          <circle cx="247" cy="0" r="3" fill="#e8403a"/>
+          <circle cx="344" cy="0" r="3" fill="#e8403a"/>
+          <circle cx="377" cy="36" r="3" fill="#e8403a"/>
+          <!-- labels -->
+          <text x="2" y="32" fill="#aaa" font-size="8" font-family="Space Mono">70%</text>
+          <text x="69" y="14" fill="#aaa" font-size="8" font-family="Space Mono">85%</text>
+          <text x="135" y="10" fill="#e8403a" font-size="8" font-family="Space Mono">100%</text>
+          <text x="167" y="100" fill="#8b6baa" font-size="8" font-family="Space Mono">30%</text>
+          <text x="249" y="10" fill="#e8403a" font-size="8" font-family="Space Mono">100%</text>
+          <!-- Y axis labels -->
+          <text x="2" y="100" fill="#333" font-size="7" font-family="Space Mono">30%</text>
+          <text x="2" y="76" fill="#333" font-size="7" font-family="Space Mono">50%</text>
+          <text x="2" y="52" fill="#333" font-size="7" font-family="Space Mono">70%</text>
+          <text x="2" y="28" fill="#333" font-size="7" font-family="Space Mono">85%</text>
+        </svg>
+      </div>
+      <div class="section-markers">
+        <div class="sm">INTRO</div><div class="sm build">BUILD</div><div class="sm drop">DROP1</div>
+        <div class="sm bkdn">BKDN</div><div class="sm build">RBLD</div><div class="sm drop">DROP2</div><div class="sm">OUTRO</div>
+      </div>
+    </div>
+
+    <!-- BASS FILTER -->
+    <div class="auto-card">
+      <div class="auto-title">BASS — AUTO FILTER CUTOFF</div>
+      <div class="auto-sub">LP 12dB · Resonance 15% FIJO · NO automatizar resonance</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gbf" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#4a9eff;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#4a9eff;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="30" x2="400" y2="30" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="60" x2="400" y2="60" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="90" x2="400" y2="90" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="67" y1="0" x2="67" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="100" y1="0" x2="100" y2="120" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="133" y1="0" x2="133" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="165" y1="0" x2="165" y2="120" stroke="#4a3a6a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="247" y1="0" x2="247" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <!-- 180Hz→400Hz→800Hz→0(breakdown)→200Hz→900Hz→600Hz→0 -->
+          <!-- y inverted: 900Hz=0, 800Hz=13, 600Hz=40, 400Hz=67, 200Hz=90, 180Hz=96, 0=120 -->
+          <polygon points="20,96 67,67 100,13 133,13 165,120 230,90 247,0 295,0 344,40 400,120 400,120 0,120" fill="url(#gbf)"/>
+          <polyline points="20,96 67,67 100,13 133,13 165,120 230,90 247,0 295,0 344,40 400,120" stroke="#4a9eff" stroke-width="2" fill="none"/>
+          <circle cx="20" cy="96" r="3" fill="#4a9eff"/>
+          <circle cx="67" cy="67" r="3" fill="#4a9eff"/>
+          <circle cx="133" cy="13" r="3" fill="#4a9eff"/>
+          <circle cx="165" cy="120" r="4" fill="#4a3a6a" stroke="#8b6baa" stroke-width="1.5"/>
+          <circle cx="230" cy="90" r="3" fill="#4a9eff"/>
+          <circle cx="247" cy="0" r="3" fill="#4a9eff"/>
+          <circle cx="344" cy="40" r="3" fill="#4a9eff"/>
+          <text x="2" y="93" fill="#aaa" font-size="8" font-family="Space Mono">180</text>
+          <text x="50" y="63" fill="#aaa" font-size="8" font-family="Space Mono">400</text>
+          <text x="105" y="10" fill="#4a9eff" font-size="8" font-family="Space Mono">800Hz</text>
+          <text x="167" y="110" fill="#8b6baa" font-size="8" font-family="Space Mono">VOL=0</text>
+          <text x="249" y="10" fill="#4a9eff" font-size="8" font-family="Space Mono">900Hz</text>
+          <text x="346" y="36" fill="#aaa" font-size="8" font-family="Space Mono">600</text>
+          <text x="2" y="28" fill="#333" font-size="7" font-family="Space Mono">900Hz</text>
+          <text x="2" y="58" fill="#333" font-size="7" font-family="Space Mono">600Hz</text>
+          <text x="2" y="88" fill="#333" font-size="7" font-family="Space Mono">200Hz</text>
+        </svg>
+      </div>
+      <div class="section-markers">
+        <div class="sm">INTRO</div><div class="sm build">BUILD</div><div class="sm drop">DROP1</div>
+        <div class="sm bkdn">BKDN</div><div class="sm build">RBLD</div><div class="sm drop">DROP2</div><div class="sm">OUTRO</div>
+      </div>
+    </div>
+
+    <!-- VOCAL REVERB -->
+    <div class="auto-card">
+      <div class="auto-title">VOCAL — REVERB WET %</div>
+      <div class="auto-sub">40%wet drops = cercana · 100%wet breakdown = etérea</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gv" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:0.4"/>
+              <stop offset="100%" style="stop-color:#9b59b6;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="24" x2="400" y2="24" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="48" x2="400" y2="48" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="72" x2="400" y2="72" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="96" x2="400" y2="96" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="67" y1="0" x2="67" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="100" y1="0" x2="100" y2="120" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="133" y1="0" x2="133" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="165" y1="0" x2="165" y2="120" stroke="#4a3a6a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="247" y1="0" x2="247" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <!-- 0→80%wet(build)→0%(drop1 no vocal)→40%wet(vocal drop65)→100%wet(bkdn)→40%(drop2)→0 -->
+          <!-- x mapping: bar1=0,33=67,49=100,65=132,81=165,89=181,121=247,137=279,145=295,169=344 -->
+          <!-- y: 100%=0, 80%=24, 60%=48, 40%=72, 20%=96, 0%=120 -->
+          <polygon points="0,120 67,24 100,120 132,120 132,72 165,72 165,0 181,0 181,120 247,120 279,72 295,72 344,120 400,120 400,120 0,120" fill="url(#gv)" opacity="0.5"/>
+          <polyline points="0,120 67,24 100,120 132,120 132,72 165,72 165,0 181,0 181,120 247,120 279,72 295,72 344,120" stroke="#9b59b6" stroke-width="2" fill="none"/>
+          <circle cx="67" cy="24" r="3" fill="#9b59b6"/>
+          <circle cx="132" cy="72" r="3" fill="#9b59b6"/>
+          <circle cx="165" cy="0" r="4" fill="#4a3a6a" stroke="#9b59b6" stroke-width="1.5"/>
+          <circle cx="279" cy="72" r="3" fill="#9b59b6"/>
+          <circle cx="295" cy="72" r="3" fill="#9b59b6"/>
+          <text x="69" y="20" fill="#9b59b6" font-size="8" font-family="Space Mono">80%wet</text>
+          <text x="112" y="68" fill="#aaa" font-size="8" font-family="Space Mono">40%</text>
+          <text x="167" y="12" fill="#9b59b6" font-size="8" font-family="Space Mono">100%wet</text>
+          <text x="280" y="68" fill="#aaa" font-size="8" font-family="Space Mono">40%</text>
+          <text x="2" y="28" fill="#333" font-size="7" font-family="Space Mono">100%</text>
+          <text x="2" y="52" fill="#333" font-size="7" font-family="Space Mono">60%</text>
+          <text x="2" y="76" fill="#333" font-size="7" font-family="Space Mono">40%</text>
+        </svg>
+      </div>
+      <div class="section-markers">
+        <div class="sm">INTRO</div><div class="sm build">BUILD</div><div class="sm drop">DROP1</div>
+        <div class="sm bkdn">BKDN</div><div class="sm build">RBLD</div><div class="sm drop">DROP2</div><div class="sm">OUTRO</div>
+      </div>
+    </div>
+
+    <!-- DRONE -->
+    <div class="auto-card">
+      <div class="auto-title">DRONE / ATMOS — VOLUMEN</div>
+      <div class="auto-sub">Inversamente proporcional al Drop — nunca ambos al máximo</div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gd" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#27ae60;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#27ae60;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="30" x2="400" y2="30" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="60" x2="400" y2="60" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="90" x2="400" y2="90" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="67" y1="0" x2="67" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="100" y1="0" x2="100" y2="120" stroke="#c4942a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="133" y1="0" x2="133" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="165" y1="0" x2="165" y2="120" stroke="#4a3a6a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="247" y1="0" x2="247" y2="120" stroke="#e8403a" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <!-- 0→80%(bar8)→60%(build)→0%(drop)→100%(bkdn)→0%(drop2)→40%(outro)→0 -->
+          <polygon points="0,120 16,24 67,48 100,120 133,120 165,0 247,120 310,120 344,72 377,72 400,120 400,120 0,120" fill="url(#gd)"/>
+          <polyline points="0,120 16,24 67,48 100,120 133,120 165,0 247,120 310,120 344,72 377,72 400,120" stroke="#27ae60" stroke-width="2" fill="none"/>
+          <circle cx="16" cy="24" r="3" fill="#27ae60"/>
+          <circle cx="67" cy="48" r="3" fill="#27ae60"/>
+          <circle cx="133" cy="120" r="3" fill="#333" stroke="#27ae60" stroke-width="1.5"/>
+          <circle cx="165" cy="0" r="4" fill="#27ae60" stroke="#4aff4a" stroke-width="1"/>
+          <circle cx="247" cy="120" r="3" fill="#333" stroke="#27ae60" stroke-width="1.5"/>
+          <circle cx="344" cy="72" r="3" fill="#27ae60"/>
+          <text x="18" y="20" fill="#27ae60" font-size="8" font-family="Space Mono">80%</text>
+          <text x="50" y="44" fill="#aaa" font-size="8" font-family="Space Mono">60%</text>
+          <text x="135" y="112" fill="#333" font-size="8" font-family="Space Mono">0%</text>
+          <text x="167" y="12" fill="#27ae60" font-size="8" font-family="Space Mono">100%</text>
+          <text x="249" y="112" fill="#333" font-size="8" font-family="Space Mono">0%</text>
+          <text x="346" y="68" fill="#27ae60" font-size="8" font-family="Space Mono">40%</text>
+          <text x="2" y="28" fill="#333" font-size="7" font-family="Space Mono">100%</text>
+          <text x="2" y="58" fill="#333" font-size="7" font-family="Space Mono">60%</text>
+          <text x="2" y="88" fill="#333" font-size="7" font-family="Space Mono">40%</text>
+        </svg>
+      </div>
+      <div class="section-markers">
+        <div class="sm">INTRO</div><div class="sm build">BUILD</div><div class="sm drop">DROP1</div>
+        <div class="sm bkdn">BKDN</div><div class="sm build">RBLD</div><div class="sm drop">DROP2</div><div class="sm">OUTRO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENCE TABLE -->
+  <div style="margin-top:2px;">
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>PARÁMETRO</th>
+          <th>INTRO 1–32</th>
+          <th class="build-h" style="color:var(--riser)">BUILD 33–48</th>
+          <th class="drop-h">DROP 1 49–80</th>
+          <th class="bkdn-h">BKDN 81–120</th>
+          <th class="drop-h">DROP 2 121–168</th>
+          <th>OUTRO 169–192</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="param">Kick Vol</td><td>70%</td><td>85%</td><td class="val-peak">100%</td><td class="val-bkdn">30% MIN</td><td class="val-peak">100%</td><td>70–100%</td></tr>
+        <tr><td class="param">Bass Filter</td><td>180 Hz</td><td>400 Hz</td><td class="val-peak">800 Hz</td><td class="val-bkdn">Vol=0</td><td class="val-peak">900 Hz</td><td>600 Hz→0</td></tr>
+        <tr><td class="param">Vocal Reverb</td><td class="val-off">—</td><td>80%wet</td><td>40%wet</td><td class="val-bkdn">100%wet</td><td>40%wet</td><td class="val-off">—</td></tr>
+        <tr><td class="param">Vocal Vol</td><td class="val-off">—</td><td>50%</td><td>0→100%</td><td class="val-bkdn">0→80%</td><td>0→100%</td><td class="val-off">—</td></tr>
+        <tr><td class="param">Vocal Delay</td><td class="val-off">—</td><td class="val-off">OFF</td><td class="val-note">ON 30%</td><td class="val-off">OFF</td><td class="val-note">ON 30%</td><td class="val-off">—</td></tr>
+        <tr><td class="param">Drone Vol</td><td>0→80%</td><td>60%</td><td class="val-off">0%</td><td class="val-bkdn">0→100%</td><td class="val-off">0%</td><td>0→40%→0</td></tr>
+        <tr><td class="param">Stab Vol</td><td class="val-off">—</td><td>20–30%</td><td>20%</td><td>10–30%</td><td class="val-peak">100%</td><td>20%→0</td></tr>
+        <tr><td class="param">FX/Sweep</td><td class="val-off">—</td><td>0→100%</td><td class="val-off">0%</td><td>30–40%</td><td class="val-off">0%</td><td class="val-off">—</td></tr>
+        <tr><td class="param">Sidechain</td><td class="val-off">OFF</td><td class="val-off">OFF</td><td class="val-note">4:1 ON</td><td class="val-off">OFF</td><td class="val-peak">8:1 ON</td><td class="val-off">OFF</td></tr>
+        <tr><td class="param">Bass Resonance</td><td>15% FIJO</td><td>15% FIJO</td><td>15% FIJO</td><td class="val-off">—</td><td>15% FIJO</td><td>15% FIJO</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ SIDECHAIN ══ -->
+<section id="sidechain">
+  <div class="sec-header">
+    <div class="sec-num">MOD 04</div>
+    <div class="sec-title">SIDECHAIN — EL LATIDO DE IBIZA</div>
+    <div class="sec-sub">Release (ms) = (60,000 / BPM) × 0.17</div>
+  </div>
+
+  <div class="sc-grid">
+    <div class="sc-pattern">
+      <div class="sc-label">KICK — PATRÓN (1 bar = 4 beats)</div>
+      <svg viewBox="0 0 300 60" preserveAspectRatio="none" style="width:100%;height:100%;position:absolute;top:0;left:0;">
+        <rect x="0" y="0" width="72" height="60" fill="#e8403a" opacity="0.08"/>
+        <rect x="76" y="0" width="72" height="60" fill="#e8403a" opacity="0.08"/>
+        <rect x="152" y="0" width="72" height="60" fill="#e8403a" opacity="0.08"/>
+        <rect x="228" y="0" width="72" height="60" fill="#e8403a" opacity="0.08"/>
+        <!-- kick pulses -->
+        <rect x="2" y="30" width="8" height="28" rx="1" fill="#e8403a" opacity="0.9"/>
+        <rect x="78" y="30" width="8" height="28" rx="1" fill="#e8403a" opacity="0.9"/>
+        <rect x="154" y="30" width="8" height="28" rx="1" fill="#e8403a" opacity="0.9"/>
+        <rect x="230" y="30" width="8" height="28" rx="1" fill="#e8403a" opacity="0.9"/>
+        <!-- decay -->
+        <path d="M10,30 Q30,30 72,45" stroke="#e8403a" stroke-width="1" fill="none" opacity="0.4"/>
+        <path d="M86,30 Q106,30 148,45" stroke="#e8403a" stroke-width="1" fill="none" opacity="0.4"/>
+        <path d="M162,30 Q182,30 224,45" stroke="#e8403a" stroke-width="1" fill="none" opacity="0.4"/>
+        <path d="M238,30 Q258,30 300,45" stroke="#e8403a" stroke-width="1" fill="none" opacity="0.4"/>
+        <text x="34" y="18" fill="#444" font-size="8" font-family="Space Mono">Beat 1</text>
+        <text x="110" y="18" fill="#444" font-size="8" font-family="Space Mono">Beat 2</text>
+        <text x="186" y="18" fill="#444" font-size="8" font-family="Space Mono">Beat 3</text>
+        <text x="262" y="18" fill="#444" font-size="8" font-family="Space Mono">Beat 4</text>
+      </svg>
+    </div>
+    <div class="sc-pattern">
+      <div class="sc-label">BASS — PUMP SIDECHAIN (se comprime al kick)</div>
+      <svg viewBox="0 0 300 60" preserveAspectRatio="none" style="width:100%;height:100%;position:absolute;top:0;left:0;">
+        <!-- bass pattern compressed on kick hits -->
+        <polyline points="0,58 2,58 10,20 72,20 78,58 86,20 148,20 154,58 162,20 224,20 230,58 238,20 300,20" stroke="#4a9eff" stroke-width="1.5" fill="none"/>
+        <polygon points="0,58 2,58 10,20 72,20 78,58 86,20 148,20 154,58 162,20 224,20 230,58 238,20 300,20 300,58" fill="#4a9eff" opacity="0.12"/>
+        <text x="30" y="14" fill="#4a9eff" font-size="7" font-family="Space Mono">PLENO</text>
+        <text x="4" y="52" fill="#8b6baa" font-size="7" font-family="Space Mono">COMP.</text>
+        <text x="80" y="52" fill="#8b6baa" font-size="7" font-family="Space Mono">COMP.</text>
+        <text x="156" y="52" fill="#8b6baa" font-size="7" font-family="Space Mono">COMP.</text>
+        <text x="232" y="52" fill="#8b6baa" font-size="7" font-family="Space Mono">COMP.</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="sc-params">
+    <div class="sc-param"><span class="sc-param-val">0ms</span><span class="sc-param-key">ATTACK</span></div>
+    <div class="sc-param"><span class="sc-param-val">80ms</span><span class="sc-param-key">RELEASE</span></div>
+    <div class="sc-param"><span class="sc-param-val">−18dB</span><span class="sc-param-key">THRESHOLD</span></div>
+    <div class="sc-param"><span class="sc-param-val">4:1</span><span class="sc-param-key">DROP 1</span></div>
+    <div class="sc-param alt"><span class="sc-param-val">8:1</span><span class="sc-param-key">DROP 2</span></div>
+    <div class="sc-param"><span class="sc-param-val">+2dB</span><span class="sc-param-key">MAKEUP</span></div>
+    <div class="sc-param off"><span class="sc-param-val">OFF</span><span class="sc-param-key">BREAKDOWN</span></div>
+    <div class="sc-param"><span class="sc-param-val">Hard</span><span class="sc-param-key">KNEE</span></div>
+  </div>
+
+  <div class="pro-tip" style="margin-top:2px;">
+    <div class="pro-tip-badge">★ FÓRMULA</div>
+    <div class="pro-tip-text"><b>Release (ms) = (60,000 / BPM) × 0.17</b> — 128 BPM: 60,000/128 = 468.75 ms → ×0.17 = <b>~80 ms.</b> Si es menor de 40ms suena artificial. Mayor de 150ms no respira al ritmo.</div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="sec-title" style="font-size:13px;margin-bottom:12px;">CONFIGURAR EN ABLETON — 6 PASOS</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-title">ABRE COMPRESSOR<br>en canal BASS</div><div class="step-body">Devices > Compressor en el canal Bass.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-title">ACTIVA SIDECHAIN<br>flecha izquierda</div><div class="step-body">Click en la flecha del Compressor. Se abre el panel.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-title">AUDIO FROM:<br>CANAL DEL KICK</div><div class="step-body">El kick "dispara" el compresor. Pre FX.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-title">ATTACK: 0ms<br>RELEASE: 80ms</div><div class="step-body">Attack 0 = aplana instantáneo. Release 80ms = groove.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-title">THRESHOLD −18dB<br>RATIO 4:1 / 8:1</div><div class="step-body">Drop 1: 4:1 sutil. Drop 2: 8:1 agresivo.</div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-title">OFF EN BREAKDOWN<br>ON EN DROPS</div><div class="step-body">Bass suena libre en el breakdown. Kick al 30%.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ 8 MOMENTOS ══ -->
+<section id="momentos">
+  <div class="sec-header">
+    <div class="sec-num">MOD 03</div>
+    <div class="sec-title">LOS 8 MOMENTOS CRÍTICOS</div>
+    <div class="sec-sub">Los puntos que no puedes fallar</div>
+  </div>
+  <div class="moments-grid">
+    <div class="moment"><div class="moment-bg-num">1</div><div class="moment-bar">BAR 1</div><div class="moment-name">KICK + DRONE</div><div class="moment-desc">Solo esto. 32 bars para el DJ anterior. Sin FX.</div></div>
+    <div class="moment"><div class="moment-bg-num">33</div><div class="moment-bar">BAR 33</div><div class="moment-name">1ª VOCAL</div><div class="moment-desc">50% vol · 80%wet reverb · Solo 8 bars.</div></div>
+    <div class="moment critical"><div class="moment-bg-num">47</div><div class="moment-bar">BAR 47<br><span style="font-size:14px">BEAT 4</span></div><div class="moment-name">CUT TOTAL</div><div class="moment-desc">1 beat de silencio absoluto. El más poderoso.</div></div>
+    <div class="moment critical"><div class="moment-bg-num">49</div><div class="moment-bar">BAR 49</div><div class="moment-name">DROP 1</div><div class="moment-desc">Todo full. SIN vocal — la promesa queda pendiente.</div></div>
+    <div class="moment critical"><div class="moment-bg-num">65</div><div class="moment-bar">BAR 65</div><div class="moment-name">VOCAL SORPRESA</div><div class="moment-desc">El crowd explota. 16 bars después del drop.</div></div>
+    <div class="moment"><div class="moment-bg-num">81</div><div class="moment-bar">BAR 81</div><div class="moment-name">VACÍO</div><div class="moment-desc">Kick 30%, nada más. El silencio habla más que cualquier FX.</div></div>
+    <div class="moment critical"><div class="moment-bg-num">121</div><div class="moment-bar">BAR 121</div><div class="moment-name">DROP 2</div><div class="moment-desc">El más grande. Stab hipnótico en loop completo.</div></div>
+    <div class="moment critical" style="border-color:#ff3030;background:rgba(255,48,48,0.08)"><div class="moment-bg-num">145</div><div class="moment-bar" style="color:#ff3030">BAR 145</div><div class="moment-name">CLÍMAX</div><div class="moment-desc">Todo peak simultáneo. Solo sucede UNA vez en todo el track.</div></div>
+  </div>
+
+  <div class="cut-grid">
+    <div class="cut-card">
+      <div class="cut-bg">CUT</div>
+      <div class="cut-num">CUT 1</div>
+      <div class="cut-bar-big">BAR 47 <span>BEAT 4</span></div>
+      <div class="cut-desc">Todos los faders a 0 simultáneamente. Solo 1 beat. Drop llega en bar 49. El silencio hace que el drop golpee 2× más fuerte.</div>
+    </div>
+    <div class="cut-card">
+      <div class="cut-bg">CUT</div>
+      <div class="cut-num">CUT 2</div>
+      <div class="cut-bar-big">BAR 119 <span>BEAT 4</span></div>
+      <div class="cut-desc">Idéntico al CUT 1 pero el Drop 2 que sigue es MAS GRANDE. El crowd ya sabe el patrón — la anticipación es el doble. Riser 2 &gt; Riser 1.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FX CHAINS ══ -->
+<section id="fx-chains">
+  <div class="sec-header">
+    <div class="sec-num">MOD 04</div>
+    <div class="sec-title">FX CHAINS — CADENA DE EFECTOS</div>
+    <div class="sec-sub">Settings exactos por elemento</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;">
+
+    <div class="tech-card">
+      <div class="tech-card-title">KICK</div>
+      <div class="tech-row"><span>HP</span><span>@ 30 Hz</span></div>
+      <div class="tech-row"><span>Boost sub</span><span>60 Hz +2dB</span></div>
+      <div class="tech-row"><span>Notch</span><span>300 Hz −3dB</span></div>
+      <div class="tech-row"><span>Presence</span><span>2 kHz +1dB</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Comp Attack</span><span>0 ms</span></div>
+      <div class="tech-row"><span>Comp Release</span><span>50 ms</span></div>
+      <div class="tech-row"><span>Threshold</span><span>−6 dB</span></div>
+      <div class="tech-row"><span>Ratio</span><span>4:1 Hard</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Saturator</span><span>Soft Clip 10%</span></div>
+      <div class="tech-row"><span>Limiter</span><span>−0.1dB</span></div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-title">BASS</div>
+      <div class="tech-row"><span>HP</span><span>@ 40 Hz</span></div>
+      <div class="tech-row"><span>Boost</span><span>80 Hz +3dB</span></div>
+      <div class="tech-row"><span>Notch</span><span>400 Hz −4dB</span></div>
+      <div class="tech-row"><span>LP</span><span>@ 800 Hz</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Auto Filter</span><span>LP · Res 15%</span></div>
+      <div class="tech-row"><span>Cutoff Intro</span><span>180 Hz</span></div>
+      <div class="tech-row"><span>Cutoff Drop</span><span>800 Hz</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>SC Attack</span><span>0 ms</span></div>
+      <div class="tech-row"><span>SC Release</span><span>80 ms</span></div>
+      <div class="tech-row"><span>Width sub</span><span>Mono &lt;200Hz</span></div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-title">VOCAL FIRMA</div>
+      <div class="tech-row"><span>HP</span><span>@ 80 Hz</span></div>
+      <div class="tech-row"><span>De-ess</span><span>6 kHz</span></div>
+      <div class="tech-row"><span>Presence</span><span>3 kHz +2dB</span></div>
+      <div class="tech-row"><span>Air</span><span>12 kHz +1.5dB</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Comp 3:1 Soft</span><span>−12dB</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Reverb Drop</span><span>2.5s · 40%wet</span></div>
+      <div class="tech-row"><span>Reverb Bkdn</span><span>3.5s · 100%wet</span></div>
+      <div class="tech-row"><span>Pre-delay</span><span>30 ms</span></div>
+      <div class="tech-row"><span>Delay Ping</span><span>1/8 · 25% FB</span></div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-title">DRONE / ATMOS</div>
+      <div class="tech-row"><span>LP</span><span>@ 3 kHz</span></div>
+      <div class="tech-row"><span>Boost</span><span>120 Hz +2dB</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Reverb Plate</span><span>4–5s · 60–70%</span></div>
+      <div class="tech-row"><span>Pre-delay</span><span>0 ms</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Chorus Rate</span><span>0.2 Hz</span></div>
+      <div class="tech-row"><span>Depth</span><span>20%</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Vol Intro</span><span>0→80%</span></div>
+      <div class="tech-row"><span>Vol Drop</span><span style="color:var(--accent)">0%</span></div>
+      <div class="tech-row"><span>Vol Bkdn</span><span style="color:#27ae60">100%</span></div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-title">TONAL STAB</div>
+      <div class="tech-row"><span>Osc</span><span>Saw / Square</span></div>
+      <div class="tech-row"><span>Attack</span><span>0 ms</span></div>
+      <div class="tech-row"><span>Release</span><span>300 ms</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Saturator</span><span>Soft Clip 25%</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>HP</span><span>@ 150 Hz</span></div>
+      <div class="tech-row"><span>Cut</span><span>800 Hz −3dB</span></div>
+      <div class="tech-row"><span>Presence</span><span>2.5 kHz +2dB</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Delay 1/4</span><span>FB 35% · 40%wet</span></div>
+      <div class="tech-row"><span>Reverb</span><span>1.5s · 25%wet</span></div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-title">FX / SWEEP</div>
+      <div class="tech-row"><span>White Noise</span><span>−3 st pitch</span></div>
+      <div class="tech-row"><span>Auto Filter LP</span><span>80→18kHz</span></div>
+      <div class="tech-row"><span>Tiempo</span><span>4–8 bars</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Reverb</span><span>1.5s · 50%wet</span></div>
+      <div class="divider"></div>
+      <div class="tech-row"><span>Limiter</span><span style="color:var(--accent)">−3dB SIEMPRE</span></div>
+      <div class="tech-row"><span>RISER</span><span>0→100% vol</span></div>
+      <div class="tech-row"><span>ATMOS</span><span>40% fijo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ EQ / FREQ ══ -->
+<section id="eq">
+  <div class="sec-header">
+    <div class="sec-num">MOD 04</div>
+    <div class="sec-title">EQ — ESPECTRO DE FRECUENCIAS</div>
+    <div class="sec-sub">HP en todo excepto kick y bajo</div>
+  </div>
+
+  <div class="eq-wrap">
+    <div class="eq-bars">
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:75px;background:linear-gradient(to top,#e8403a,#c0392b)"></div><div class="eq-freq">20–60</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:65px;background:linear-gradient(to top,#e8403a88,#c0392b88)"></div><div class="eq-freq">60–120</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:30px;background:#2d4a2d"></div><div class="eq-freq">200–400</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:48px;background:#4a6741"></div><div class="eq-freq">400–1k</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:60px;background:#6b9e52"></div><div class="eq-freq">1–4k</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:52px;background:#c4942a"></div><div class="eq-freq">5–10k</div></div>
+      <div class="eq-bar-wrap"><div class="eq-bar" style="height:44px;background:#4a9eff"></div><div class="eq-freq">10–20k</div></div>
+    </div>
+    <div style="display:flex;gap:2px;margin-top:2px;">
+      <div class="eq-zone" style="flex:2;color:#e8403a;background:#1a0a0a">SUB</div>
+      <div class="eq-zone" style="flex:2;color:#c0392b;background:#180808">CUERPO</div>
+      <div class="eq-zone" style="flex:2;color:#2d4a2d;background:#0a120a">MUD — CORTAR</div>
+      <div class="eq-zone" style="flex:2;color:#4a6741;background:#0e160b">MEDIOS</div>
+      <div class="eq-zone" style="flex:2;color:#6b9e52;background:#101a0a">PRESENCIA</div>
+      <div class="eq-zone" style="flex:2;color:#c4942a;background:#1a140a">BRILLO</div>
+      <div class="eq-zone" style="flex:2;color:#4a9eff;background:#0a0e1a">AIRE</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2px;overflow-x:auto;">
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>PISTA</th><th>HIGH PASS</th><th>CORTES</th><th>BOOSTS</th><th>NOTA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="param">KICK</td><td>20–40 Hz</td><td>200–400 Hz −3dB</td><td>5–8 kHz +2dB</td><td style="color:var(--dim)">Preservar 60–90 Hz</td></tr>
+        <tr><td class="param">BASS</td><td>20–50 Hz</td><td>200–300 Hz gordo · LP 8kHz</td><td>1–3 kHz +1dB</td><td style="color:var(--dim)">Preservar 80–120 Hz</td></tr>
+        <tr><td class="param">DRUMS</td><td>20–40 Hz</td><td>200–400 Hz</td><td>5–8 kHz +2dB</td><td style="color:var(--dim)">Como kick sin sub</td></tr>
+        <tr><td class="param">CHORDS</td><td style="color:var(--accent)">200 Hz AGRESIVO</td><td>300–600 Hz suave</td><td>1–4 kHz +1dB · 10–16 kHz +1.5dB</td><td style="color:var(--dim)">HP duro — el bajo es del kick</td></tr>
+        <tr><td class="param">MELODY</td><td style="color:var(--accent)">500 Hz</td><td>300–600 Hz suave</td><td>1–4 kHz +1dB · 12 kHz +1dB</td><td style="color:var(--dim)">Espacio completo medios-agudos</td></tr>
+        <tr><td class="param">VOCALS</td><td>150–300 Hz</td><td>De-ess 6 kHz</td><td>3 kHz +2dB · 12 kHz +1.5dB</td><td style="color:var(--dim)">HP donde empieza la inteligibilidad</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pro-tip">
+    <div class="pro-tip-badge">★ REGLA</div>
+    <div class="pro-tip-text"><b>HP en TODAS las pistas excepto kick y bajo.</b> Chords: 200 Hz · Vocals: 300 Hz · Melody: 500 Hz. El mud desaparece instantáneamente.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ 6 REGLAS ══ -->
+<section id="reglas">
+  <div class="sec-header">
+    <div class="sec-num">MOD 07</div>
+    <div class="sec-title">LAS 6 REGLAS DE IBIZA</div>
+    <div class="sec-sub">Carola · Jones · Capriati · Richie Ahmed</div>
+  </div>
+
+  <div class="quote-block">
+    <div class="quote-text">"EL PRODUCTOR JOVEN AÑADE.<br>EL PRODUCTOR AVANZADO QUITA."</div>
+    <div class="quote-attr">— MARCO CAROLA / ANDRES PM</div>
+  </div>
+
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-num">01</div>
+      <div class="rule-title">UN SOLO ELEMENTO FIRMA</div>
+      <div class="rule-body">Una vocal, un stab, un sonido extraño. Todo lo demás sirve a ese elemento.</div>
+      <ul class="rule-bullets">
+        <li>Vocal firma aparece 3 veces — mismo sonido, distinto contexto</li>
+        <li>El stab es UNA nota en loop — no una melodía</li>
+        <li>Dos ideas buenas = dos tracks distintos</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">02</div>
+      <div class="rule-title">EL KICK ES SAGRADO</div>
+      <div class="rule-body">El kick nunca llega a 0%. Es la brújula del DJ. El corazón biológico de la pista.</div>
+      <ul class="rule-bullets">
+        <li>Intro: 70% — no al máximo todavía</li>
+        <li>Breakdown: 30% — mínimo pero vivo</li>
+        <li>Drop: 100% — demoledor</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">03</div>
+      <div class="rule-title">EL VACÍO ES TU ARMA</div>
+      <div class="rule-body">El error del productor joven: agregar más para crear tensión. Carola hace lo opuesto — quita.</div>
+      <ul class="rule-bullets">
+        <li>Breakdown = kick + drone SOLAMENTE</li>
+        <li>Bass desaparece completamente</li>
+        <li>Ningún FX de transición — el silencio ES el drama</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">04</div>
+      <div class="rule-title">VOCAL MÍNIMA PERO DEVASTADORA</div>
+      <div class="rule-body">Una frase. Dos palabras máximo. 3 apariciones. Si no te pone los pelos de punta en el estudio, no lo pondrá en la pista.</div>
+      <ul class="rule-bullets">
+        <li>Build: 80%wet — promesa</li>
+        <li>Drop 1: 40%wet — revelación tardía</li>
+        <li>Drop 2: 40%wet — peak emocional</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">05</div>
+      <div class="rule-title">EL GROOVE ES EL ANZUELO</div>
+      <div class="rule-body">La gente en Ibiza empieza a moverse en el INTRO, no en el drop. Si no engancha en 32 bars, el DJ lo mezcla.</div>
+      <ul class="rule-bullets">
+        <li>32 bars de intro — el groove habla solo</li>
+        <li>Sidechain kick+bass = el pump</li>
+        <li>Perc 1 ES el groove signature</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">06</div>
+      <div class="rule-title">UN SOLO CLÍMAX PERFECTO</div>
+      <div class="rule-body">UN drop masivo, no dos mediocres. La energía se construye 3 minutos y se suelta UNA sola vez.</div>
+      <ul class="rule-bullets">
+        <li>Drop 1 (1:30): groove full, vocal tardía</li>
+        <li>Drop 2 (3:45): TODO + stab loop + vocal peak</li>
+        <li>Clímax BAR 145 — solo una vez</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ CHECKLIST ══ -->
+<section id="checklist">
+  <div class="sec-header">
+    <div class="sec-num">MOD 10</div>
+    <div class="sec-title">CHECKLIST MAESTRO</div>
+    <div class="sec-sub">Antes de exportar — nada puede faltar</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;">
+    <div class="auto-card">
+      <div class="auto-title">ESTRUCTURA</div>
+      <div style="margin-top:8px;">
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">32 Bars de Intro. Bar 1 solo Kick+Drone. SIN FX.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Vocal firma en Build Bar 33 al 50% · 80%wet.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">CUT TOTAL Bar 47 Beat 4. 1 beat de silencio.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Drop 1 sin vocal. Vocal sorpresa en Bar 65.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Breakdown: max 3 elementos. Kick 30%+Drone+Vocal.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Riser 2 MAYOR que el 1. Más grave, más ancho.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Drop 2: Stab 100% en loop desde Bar 121.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Clímax Bar 145 todo peak. Solo sucede UNA vez.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Outro: 24+ Bars limpios. Sin FX, sin vocal.</span></label>
+      </div>
+    </div>
+    <div class="auto-card">
+      <div class="auto-title">AUTOMATIZACIONES</div>
+      <div style="margin-top:8px;">
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Bass Filter: 180→400→800Hz→Vol0→900Hz.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Kick: 70% intro / 85% build / 100% drops / 30% bkdn.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Vocal Reverb: 80%wet build → 40% drop → 100% bkdn.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Vocal Delay: ON 30%wet en Drops. OFF en Breakdown.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Drone: 80% intro / 0% drops / 100% breakdown.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Sidechain: 4:1 Drop 1 / 8:1 Drop 2 / OFF Breakdown.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Bass Resonance: 15% FIJO. No automatizar nunca.</span></label>
+      </div>
+    </div>
+    <div class="auto-card">
+      <div class="auto-title">MEZCLA + EXPORT</div>
+      <div style="margin-top:8px;">
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Gain Staging: −18 dBFS RMS en todos los loops.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">HP en TODAS excepto kick y bajo.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Kick y Sub: MONO siempre. Utility Width 0%.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Master: EQ→GlueComp→Sat→Multiband→Enhancer→Limiter.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Limiter: Ceiling −0.3dB · Lookahead 3ms.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">LUFS: −9 a −11 integrado para demos de sellos.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #1e1e1e;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Comparado con 3 tracks del sello objetivo.</span></label>
+        <label style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;cursor:pointer;"><input type="checkbox" style="margin-top:2px;accent-color:#e8403a"> <span style="font-family:var(--mono);font-size:9px;color:var(--dim)">Export: WAV 24-bit / 48kHz. NUNCA MP3.</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ ATAJOS ══ -->
+<section id="shortcuts">
+  <div class="sec-header">
+    <div class="sec-num">REF A</div>
+    <div class="sec-title">ATAJOS MAC — ABLETON LIVE</div>
+    <div class="sec-sub">Los esenciales organizados por categoría</div>
+  </div>
+  <div class="shortcuts-grid">
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">GLOBAL</div>
+      <div class="shortcut-row"><span class="shortcut-action">Nuevo proyecto</span><span class="shortcut-key">Cmd + N</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Guardar</span><span class="shortcut-key">Cmd + S</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Guardar como</span><span class="shortcut-key">Cmd + Shift + S</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Exportar audio</span><span class="shortcut-key">Cmd + Shift + R</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Preferencias</span><span class="shortcut-key">Cmd + ,</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Deshacer</span><span class="shortcut-key">Cmd + Z</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">TRANSPORTE</div>
+      <div class="shortcut-row"><span class="shortcut-action">Play / Stop</span><span class="shortcut-key">Space</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Play desde inicio</span><span class="shortcut-key">Return</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Grabar</span><span class="shortcut-key">F9</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Automation Mode</span><span class="shortcut-key">A</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Capture MIDI</span><span class="shortcut-key">Cmd + Shift + C</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Follow Mode</span><span class="shortcut-key">F</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">VISTAS</div>
+      <div class="shortcut-row"><span class="shortcut-action">Session ↔ Arrangement</span><span class="shortcut-key">Tab</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Mostrar Browser</span><span class="shortcut-key">Cmd + Alt + B</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Mostrar Clip View</span><span class="shortcut-key">Cmd + Alt + E</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Mostrar Mixer</span><span class="shortcut-key">Cmd + Alt + M</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Zoom IN</span><span class="shortcut-key">Z</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Zoom to Fit</span><span class="shortcut-key">Cmd + Alt + H</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">PISTAS</div>
+      <div class="shortcut-row"><span class="shortcut-action">Nueva pista audio</span><span class="shortcut-key">Cmd + T</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Nueva pista MIDI</span><span class="shortcut-key">Cmd + Shift + T</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Nueva Return Track</span><span class="shortcut-key">Cmd + Alt + T</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Renombrar</span><span class="shortcut-key">Cmd + R</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Duplicar</span><span class="shortcut-key">Cmd + D</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Agrupar</span><span class="shortcut-key">Cmd + G</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">CLIPS Y EDICIÓN</div>
+      <div class="shortcut-row"><span class="shortcut-action">Cortar en cursor</span><span class="shortcut-key">Cmd + E</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Consolidar</span><span class="shortcut-key">Cmd + J</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Duplicar</span><span class="shortcut-key">Cmd + D</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Duplicar + autos</span><span class="shortcut-key">Cmd + Shift + D</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Mute track</span><span class="shortcut-key">0</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Solo track</span><span class="shortcut-key">S</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">CUADRÍCULA</div>
+      <div class="shortcut-row"><span class="shortcut-action">Grid Snap ON/OFF</span><span class="shortcut-key">Cmd + 4</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Grid más fina</span><span class="shortcut-key">Cmd + 1</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Grid más gruesa</span><span class="shortcut-key">Cmd + 2</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Grid a 1/8</span><span class="shortcut-key">Cmd + 3</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Grid a 1 barra</span><span class="shortcut-key">Cmd + 6</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Mover sin grid</span><span class="shortcut-key">Alt + Drag</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">AUTOMATIZACIÓN</div>
+      <div class="shortcut-row"><span class="shortcut-action">Nuevo breakpoint</span><span class="shortcut-key">Click en curva</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Borrar breakpoint</span><span class="shortcut-key">Ctrl + Click</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Curva suave</span><span class="shortcut-key">Clic der. → Edit</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Locator siguiente</span><span class="shortcut-key">Shift + →</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Locator anterior</span><span class="shortcut-key">Shift + ←</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Añadir locator</span><span class="shortcut-key">Clic der. en regla</span></div>
+    </div>
+    <div class="shortcut-group">
+      <div class="shortcut-group-title">SECRETOS PRO</div>
+      <div class="shortcut-row"><span class="shortcut-action">Freeze Track</span><span class="shortcut-key">Clic der. → Freeze</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Flatten</span><span class="shortcut-key">Clic der. → Flatten</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Slice to MIDI</span><span class="shortcut-key">Clic der. → Slice</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Extract Groove</span><span class="shortcut-key">Clic der. → Extract</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Warp From Here</span><span class="shortcut-key">Clic der. → Warp</span></div>
+      <div class="shortcut-row"><span class="shortcut-action">Track Delay</span><span class="shortcut-key">D (en Mixer)</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// nav active on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
